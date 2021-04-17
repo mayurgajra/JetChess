@@ -1,0 +1,71 @@
+import dependencies.Android
+import dependencies.LocalTests
+import dependencies.InstrumentedTests
+import dependencies.Compose
+
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+}
+
+android {
+    compileSdk 30
+
+    defaultConfig {
+        applicationId "com.mayurg.jetchess"
+        minSdk 21
+        targetSdk 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildFeatures {
+        compose true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion '1.0.0-beta01'
+    }
+}
+
+dependencies {
+
+    //android
+    implementation Android.androidXCore
+    implementation Android.appCompat
+    implementation Android.material
+
+    //jetpack compose
+    implementation Compose.core
+    implementation Compose.layout
+    implementation Compose.material
+    implementation Compose.materialIconsExt
+    implementation Compose.foundation
+    implementation Compose.runtime
+    implementation Compose.tooling
+    implementation Compose.activities
+
+
+    //local tests
+    testImplementation LocalTests.junit4
+
+    //instrumented tests
+    androidTestImplementation InstrumentedTests.junit
+    androidTestImplementation InstrumentedTests.espressoCore
+}
