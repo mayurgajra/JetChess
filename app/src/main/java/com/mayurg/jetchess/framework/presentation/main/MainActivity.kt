@@ -1,12 +1,12 @@
-package com.mayurg.jetchess
+package com.mayurg.jetchess.framework.presentation.main
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.material.Text
+import com.mayurg.jetchess.framework.presentation.base.BaseActivity
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
