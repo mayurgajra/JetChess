@@ -8,20 +8,19 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.mayurg.jetchess.R
 import com.mayurg.jetchess.framework.presentation.base.BaseActivity
-import com.mayurg.jetchess.framework.presentation.main.MainActivity
+import com.mayurg.jetchess.framework.presentation.login.LoginActivity
 import com.mayurg.jetchess.util.hideSystemUI
+import com.mayurg.jetchess.util.themeutils.AppTheme
 
 /**
  * Splash activity to display logo till sum required processing is done
@@ -54,28 +53,19 @@ class SplashActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color(0xff201A30)),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Image(
-                    painter = painterResource(R.drawable.ic_vector_splash_logo),
-                    contentDescription = "Splash Logo",
+            AppTheme {
+                Column(
                     modifier = Modifier
-                        .width(200.dp)
-                        .height(200.dp)
-                )
-                Text(
-                    stringResource(id = R.string.app_name),
-                    color = Color.White,
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = FontFamily.Serif
-                )
+                        .fillMaxSize()
+                        .background(color = MaterialTheme.colors.primary),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    SplashLogo()
+                    SplashText()
+                }
             }
+
         }
 
         /**
@@ -83,15 +73,34 @@ class SplashActivity : BaseActivity() {
          */
         hideSystemUI()
 
-        after{
+        after {
             /**
              * Navigate to main activity and finish this activity
              */
-            val intent = Intent(this,MainActivity::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finishAffinity()
         }
 
+    }
+
+    @Composable
+    fun SplashLogo(){
+        Image(
+            painter = painterResource(R.drawable.ic_vector_splash_logo),
+            contentDescription = "Splash Logo",
+            modifier = Modifier
+                .width(200.dp)
+                .height(200.dp)
+        )
+    }
+
+    @Composable
+    fun SplashText(){
+        Text(
+            stringResource(id = R.string.app_name),
+            style = MaterialTheme.typography.h3
+        )
     }
 
 

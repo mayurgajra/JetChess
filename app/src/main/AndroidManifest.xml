@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.JetChess">
         <activity
+            android:name=".framework.presentation.login.LoginActivity"
+            android:exported="true" />
+        <activity
             android:name=".framework.presentation.splash.SplashActivity"
             android:exported="true"
             android:theme="@style/SplashTheme">
