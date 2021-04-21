@@ -17,5 +17,17 @@ val typography = Typography(
         fontSize = 22.sp,
         fontWeight = FontWeight.Bold,
         fontFamily = FontFamily.Serif
+    ),
+    h5 = TextStyle(
+        color = primaryTextColor,
+        fontSize = 18.sp,
+        fontWeight = FontWeight.Bold,
+        fontFamily = FontFamily.Serif
+    ),
+    subtitle1 = TextStyle(
+        color = subtitle1TextColor,
+        fontSize = 14.sp,
+        fontWeight = FontWeight.Bold,
+        fontFamily = FontFamily.Serif
     )
 )
