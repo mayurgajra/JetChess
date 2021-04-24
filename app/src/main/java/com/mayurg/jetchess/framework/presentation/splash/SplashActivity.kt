@@ -87,7 +87,7 @@ class SplashActivity : BaseActivity() {
     @Composable
     fun SplashLogo(){
         Image(
-            painter = painterResource(R.drawable.ic_vector_splash_logo),
+            painter = painterResource(R.drawable.ic_vector_app_logo),
             contentDescription = "Splash Logo",
             modifier = Modifier
                 .width(200.dp)

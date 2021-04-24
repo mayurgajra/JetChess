@@ -7,11 +7,11 @@ object Versions {
 
     //Android
     const val androidxCore = "1.3.2"
-    const val appCompat = "1.2.0"
+    const val appCompat = "1.3.0-beta01"
     const val material = "1.3.0"
 
     //compose
-    const val composeCore = "1.0.0-beta01"
+    const val composeCore = "1.0.0-beta05"
     const val composeActivity = "1.3.0-alpha03"
 
     //local tests

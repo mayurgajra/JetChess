@@ -1,21 +1,30 @@
 package com.mayurg.jetchess.util.themeutils
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.runtime.Composable
 
-private val ColorPalette = darkColors(
+
+val appThemeColors = darkColors(
     primary = primaryColor,
-    primaryVariant = primaryVariant,
+    primaryVariant = primaryColorVariant,
+    onPrimary = onPrimaryColor,
     secondary = secondaryColor,
+    secondaryVariant = secondaryColorVariant,
+    onSecondary = onSecondaryColor,
+    surface = surface,
+    background = background,
+    onBackground = onBackground,
+    onSurface = onSurface,
+    error = errorColor,
+    onError = onErrorColor
 )
 
 @Composable
-fun AppTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable() () -> Unit) {
+fun AppTheme(content: @Composable() () -> Unit) {
 
     MaterialTheme(
-        colors = ColorPalette,
+        colors = appThemeColors,
         typography = typography,
         shapes = shapes,
         content = content
