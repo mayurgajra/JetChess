@@ -3,8 +3,11 @@ package com.mayurg.jetchess.framework.presentation.register
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -44,6 +47,7 @@ class RegisterActivity : BaseActivity() {
         val confirmPasswordState = remember { TextFieldState() }
         val scope = rememberCoroutineScope()
         val scaffoldState = rememberScaffoldState()
+        val scrollState = rememberScrollState()
 
 
         Scaffold(scaffoldState = scaffoldState) {
@@ -51,16 +55,21 @@ class RegisterActivity : BaseActivity() {
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(32.dp)
+                    .verticalScroll(scrollState)
                     .background(color = MaterialTheme.colors.primary),
                 verticalArrangement = Arrangement.Top,
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
 
-                Spacer(modifier = Modifier.height(32.dp))
+                Spacer(modifier = Modifier.height(16.dp))
                 Icon(
                     Icons.Filled.ArrowBack,
                     "Back Icon",
-                    modifier = Modifier.align(Alignment.Start)
+                    modifier = Modifier
+                        .align(Alignment.Start)
+                        .clickable {
+                            onBackPressed()
+                        },
                 )
                 Spacer(modifier = Modifier.height(32.dp))
                 Text(
