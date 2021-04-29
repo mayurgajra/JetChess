@@ -16,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -54,8 +55,9 @@ class RegisterActivity : BaseActivity() {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(32.dp)
+                    .padding(start = 32.dp,end = 32.dp,top = 32.dp,bottom = 0.dp)
                     .verticalScroll(scrollState)
+                    .clipToBounds()
                     .background(color = MaterialTheme.colors.primary),
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -124,6 +126,8 @@ class RegisterActivity : BaseActivity() {
                 }
                 Spacer(modifier = Modifier.height(12.dp))
                 SignInText()
+                Spacer(modifier = Modifier.height(16.dp))
+
 
             }
         }
@@ -135,7 +139,6 @@ class RegisterActivity : BaseActivity() {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
         ) {
             PartiallyHighLightedClickableText(
                 normalText = "Already have an account? ",
