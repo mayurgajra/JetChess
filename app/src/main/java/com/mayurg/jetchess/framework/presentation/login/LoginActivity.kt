@@ -29,10 +29,10 @@ import com.mayurg.jetchess.R
 import com.mayurg.jetchess.framework.presentation.base.BaseActivity
 import com.mayurg.jetchess.framework.presentation.register.RegisterActivity
 import com.mayurg.jetchess.util.TextFieldState
-import com.mayurg.jetchess.util.reusableviews.LoginRegisterButton
-import com.mayurg.jetchess.util.reusableviews.LoginRegisterTextField
-import com.mayurg.jetchess.util.reusableviews.PartiallyHighLightedClickableText
-import com.mayurg.jetchess.util.themeutils.AppTheme
+import com.mayurg.jetchess.framework.presentation.utils.reusableviews.LoginRegisterButton
+import com.mayurg.jetchess.framework.presentation.utils.reusableviews.LoginRegisterTextField
+import com.mayurg.jetchess.framework.presentation.utils.reusableviews.PartiallyHighLightedClickableText
+import com.mayurg.jetchess.framework.presentation.utils.themeutils.AppTheme
 import kotlinx.coroutines.launch
 
 class LoginActivity : BaseActivity() {

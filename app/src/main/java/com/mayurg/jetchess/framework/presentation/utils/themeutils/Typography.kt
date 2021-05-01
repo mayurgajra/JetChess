@@ -1,4 +1,4 @@
-package com.mayurg.jetchess.util.themeutils
+package com.mayurg.jetchess.framework.presentation.utils.themeutils
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

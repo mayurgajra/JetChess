@@ -23,10 +23,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mayurg.jetchess.framework.presentation.base.BaseActivity
 import com.mayurg.jetchess.util.TextFieldState
-import com.mayurg.jetchess.util.reusableviews.LoginRegisterButton
-import com.mayurg.jetchess.util.reusableviews.LoginRegisterTextField
-import com.mayurg.jetchess.util.reusableviews.PartiallyHighLightedClickableText
-import com.mayurg.jetchess.util.themeutils.AppTheme
+import com.mayurg.jetchess.framework.presentation.utils.reusableviews.LoginRegisterButton
+import com.mayurg.jetchess.framework.presentation.utils.reusableviews.LoginRegisterTextField
+import com.mayurg.jetchess.framework.presentation.utils.reusableviews.PartiallyHighLightedClickableText
+import com.mayurg.jetchess.framework.presentation.utils.themeutils.AppTheme
 import kotlinx.coroutines.launch
 
 class RegisterActivity : BaseActivity() {
@@ -146,7 +146,7 @@ class RegisterActivity : BaseActivity() {
                 tag = "SignIn",
                 modifier = Modifier.align(Alignment.BottomCenter)
             ) {
-
+                onBackPressed()
             }
         }
     }

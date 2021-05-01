@@ -1,4 +1,4 @@
-package com.mayurg.jetchess.util.themeutils
+package com.mayurg.jetchess.framework.presentation.utils.themeutils
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

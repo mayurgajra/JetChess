@@ -1,4 +1,4 @@
-package com.mayurg.jetchess.util.reusableviews
+package com.mayurg.jetchess.framework.presentation.utils.reusableviews
 
 import android.util.Log
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,7 +22,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.sp
 import com.mayurg.jetchess.util.TextFieldState
-import com.mayurg.jetchess.util.themeutils.subtitle1TextColor
+import com.mayurg.jetchess.framework.presentation.utils.themeutils.subtitle1TextColor
 
 
 @Composable

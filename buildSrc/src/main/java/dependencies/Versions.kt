@@ -14,10 +14,15 @@ object Versions {
     const val composeCore = "1.0.0-beta05"
     const val composeActivity = "1.3.0-alpha03"
 
+    //hilt
+    const val hilt = "2.35.1"
+
     //local tests
     const val junit4 = "4.13.2"
 
     //instrumented tests
     const val junit = "1.1.2"
     const val espressoCore = "3.3.0"
+    const val espressoIdlingResource = "3.2.0"
+
 }

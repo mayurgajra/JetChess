@@ -1,4 +1,4 @@
-package com.mayurg.jetchess.util.reusableviews
+package com.mayurg.jetchess.framework.presentation.utils.reusableviews
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth

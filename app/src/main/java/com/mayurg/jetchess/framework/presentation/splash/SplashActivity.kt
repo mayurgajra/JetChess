@@ -20,7 +20,7 @@ import com.mayurg.jetchess.R
 import com.mayurg.jetchess.framework.presentation.base.BaseActivity
 import com.mayurg.jetchess.framework.presentation.login.LoginActivity
 import com.mayurg.jetchess.util.hideSystemUI
-import com.mayurg.jetchess.util.themeutils.AppTheme
+import com.mayurg.jetchess.framework.presentation.utils.themeutils.AppTheme
 
 /**
  * Splash activity to display logo till sum required processing is done
