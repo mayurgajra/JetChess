@@ -2,7 +2,7 @@ package dependencies
 
 object Versions {
     // Build project level versions
-    const val buildTools = "7.0.0-alpha14"
+    const val buildTools = "7.0.0-alpha15"
     const val kotlinPlugin = "1.4.32"
 
     //Android
