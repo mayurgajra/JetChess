@@ -7,7 +7,7 @@ import com.mayurg.jetchess.util.TodoCallback
 data class StateMessage(val response: Response)
 
 data class Response(
-    val message: String?,
+    val message: Enum<*>?,
     val uiComponentType: UIComponentType,
     val messageType: MessageType
 )

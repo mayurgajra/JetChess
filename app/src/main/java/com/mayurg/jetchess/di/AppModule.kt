@@ -1,7 +1,7 @@
 package com.mayurg.jetchess.di
 
 import com.mayurg.jetchess.business.data.network.NetworkConstants.BASE_URL
-import com.mayurg.jetchess.framework.datasource.network.abstraction.JetChessApiService
+import com.mayurg.jetchess.framework.datasource.network.retrofit.JetChessApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
