@@ -3,6 +3,7 @@ package com.mayurg.jetchess.business.domain.state
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.mayurg.jetchess.business.data.network.NetworkErrors
 import com.mayurg.jetchess.util.printLogD
 import kotlinx.android.parcel.IgnoredOnParcel
 import java.util.*
@@ -57,7 +58,7 @@ class MessageStack: ArrayList<StateMessage>() {
         }
         return StateMessage( // this does nothing
             Response(
-                message = "does nothing",
+                message = NetworkErrors.NETWORK_ERROR_UNKNOWN,
                 uiComponentType = UIComponentType.None(),
                 messageType = MessageType.None()
             )

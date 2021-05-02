@@ -16,6 +16,8 @@ object Versions {
 
     //hilt
     const val hilt = "2.35.1"
+    const val hiltViewModel = "1.0.0-alpha03"
+    const val hiltCompiler = "1.0.0-beta01"
 
     //local tests
     const val junit4 = "4.13.2"

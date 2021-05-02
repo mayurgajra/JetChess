@@ -5,26 +5,34 @@ import com.mayurg.jetchess.business.domain.state.StateEvent
 import com.mayurg.jetchess.business.interactors.UserInteractors
 import com.mayurg.jetchess.framework.presentation.base.BaseViewModel
 import com.mayurg.jetchess.framework.presentation.register.state.RegisterStateEvent
+import com.mayurg.jetchess.framework.presentation.register.state.RegisterUserViewState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
-import javax.inject.Singleton
 
 @ExperimentalCoroutinesApi
 @FlowPreview
-@Singleton
+@HiltViewModel
 class RegisterUserViewModel
 @Inject constructor(
     private val userInteractors: UserInteractors
-) : BaseViewModel<RegisterStateEvent>() {
+) : BaseViewModel<RegisterUserViewState>() {
 
-    override fun handleNewData(data: RegisterStateEvent) {
-        TODO("Not yet implemented")
+
+    override fun handleNewData(data: RegisterUserViewState) {
+        data.let { viewState ->
+            viewState.baseResponseModel?.let {
+                val state = getCurrentViewStateOrNew()
+                state.baseResponseModel = it
+                setViewState(state)
+            }
+        }
     }
 
     override fun setStateEvent(stateEvent: StateEvent) {
-        val job: Flow<DataState<RegisterStateEvent>?> = when (stateEvent) {
+        val job: Flow<DataState<RegisterUserViewState>?> = when (stateEvent) {
 
             is RegisterStateEvent.RegisterUser -> {
                 userInteractors.registerUser.registerUser(
@@ -42,8 +50,8 @@ class RegisterUserViewModel
         launchJob(stateEvent, job)
     }
 
-    override fun initNewViewState(): RegisterStateEvent {
-        TODO("Not yet implemented")
+    override fun initNewViewState(): RegisterUserViewState {
+        return RegisterUserViewState()
     }
 
 }

@@ -2,6 +2,7 @@ package com.mayurg.jetchess.framework.presentation.register
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -22,16 +23,27 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mayurg.jetchess.framework.presentation.base.BaseActivity
-import com.mayurg.jetchess.util.TextFieldState
+import com.mayurg.jetchess.framework.presentation.register.state.RegisterStateEvent
 import com.mayurg.jetchess.framework.presentation.utils.reusableviews.LoginRegisterButton
 import com.mayurg.jetchess.framework.presentation.utils.reusableviews.LoginRegisterTextField
 import com.mayurg.jetchess.framework.presentation.utils.reusableviews.PartiallyHighLightedClickableText
 import com.mayurg.jetchess.framework.presentation.utils.themeutils.AppTheme
+import com.mayurg.jetchess.util.TextFieldState
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.launch
 
+@FlowPreview
+@ExperimentalCoroutinesApi
+@AndroidEntryPoint
 class RegisterActivity : BaseActivity() {
+
+    private val viewModel: RegisterUserViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.setupChannel()
         setContent {
             AppTheme {
                 Register()
@@ -55,7 +67,7 @@ class RegisterActivity : BaseActivity() {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(start = 32.dp,end = 32.dp,top = 32.dp,bottom = 0.dp)
+                    .padding(start = 32.dp, end = 32.dp, top = 32.dp, bottom = 0.dp)
                     .verticalScroll(scrollState)
                     .clipToBounds()
                     .background(color = MaterialTheme.colors.primary),
@@ -114,13 +126,25 @@ class RegisterActivity : BaseActivity() {
                 )
                 Spacer(modifier = Modifier.height(32.dp))
                 LoginRegisterButton("Sign Up") {
-                    if (emailState.text.isEmpty()) {
-                        scope.launch {
-                            scaffoldState.snackbarHostState.showSnackbar("Email is empty")
+                    when {
+                        emailState.text.isEmpty() -> {
+                            scope.launch {
+                                scaffoldState.snackbarHostState.showSnackbar("Email is empty")
+                            }
                         }
-                    } else if (passwordState.text.isEmpty()) {
-                        scope.launch {
-                            scaffoldState.snackbarHostState.showSnackbar("Password is empty")
+                        passwordState.text.isEmpty() -> {
+                            scope.launch {
+                                scaffoldState.snackbarHostState.showSnackbar("Password is empty")
+                            }
+                        }
+                        else -> {
+                            viewModel.setStateEvent(RegisterStateEvent.RegisterUser(
+                                fullName = nameState.text,
+                                mobile = mobileState.text,
+                                email = emailState.text,
+                                password = passwordState.text,
+                                confirmPassword = confirmPasswordState.text
+                            ))
                         }
                     }
                 }
