@@ -9,6 +9,8 @@ class NetworkMapper @Inject constructor(): EntityMapper<RegisterUserDTO,Register
 
     override fun mapFromEntity(entity: RegisterUserDTO): RegisterUserModel {
         return RegisterUserModel(
+            fullName = entity.fullName,
+            mobile = entity.mobile,
             email = entity.email,
             password = entity.password
         )
@@ -16,6 +18,8 @@ class NetworkMapper @Inject constructor(): EntityMapper<RegisterUserDTO,Register
 
     override fun mapToEntity(domainModel: RegisterUserModel): RegisterUserDTO {
         return RegisterUserDTO(
+            fullName = domainModel.fullName,
+            mobile = domainModel.mobile,
            email = domainModel.email,
            password = domainModel.password
         )

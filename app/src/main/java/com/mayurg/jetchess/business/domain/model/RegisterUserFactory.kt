@@ -12,6 +12,6 @@ class RegisterUserFactory @Inject constructor() {
         email: String,
         password: String,
     ): RegisterUserModel {
-        return RegisterUserModel(email, password)
+        return RegisterUserModel(fullName, mobile, email, password)
     }
 }
