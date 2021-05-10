@@ -5,7 +5,7 @@ import com.mayurg.jetchess.business.domain.util.EntityMapper
 import com.mayurg.jetchess.framework.datasource.network.model.RegisterUserDTO
 import javax.inject.Inject
 
-class NetworkMapper @Inject constructor(): EntityMapper<RegisterUserDTO,RegisterUserModel> {
+class RegisterNetworkMapper @Inject constructor() : EntityMapper<RegisterUserDTO, RegisterUserModel> {
 
     override fun mapFromEntity(entity: RegisterUserDTO): RegisterUserModel {
         return RegisterUserModel(
@@ -20,8 +20,8 @@ class NetworkMapper @Inject constructor(): EntityMapper<RegisterUserDTO,Register
         return RegisterUserDTO(
             fullName = domainModel.fullName,
             mobile = domainModel.mobile,
-           email = domainModel.email,
-           password = domainModel.password
+            email = domainModel.email,
+            password = domainModel.password
         )
     }
 }

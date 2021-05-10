@@ -6,4 +6,6 @@ import com.mayurg.jetchess.framework.datasource.network.model.BaseResponseModel
 interface JetChessNetworkService {
 
     suspend fun registerUser(registerUser: RegisterUserModel): BaseResponseModel
+
+    suspend fun loginUser(loginUserModel: LoginUserModel): BaseResponseModel
 }

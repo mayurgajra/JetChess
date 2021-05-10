@@ -5,7 +5,6 @@ import com.mayurg.jetchess.business.data.network.abstraction.JetChessNetworkData
 import com.mayurg.jetchess.business.data.network.implementation.JetChessNetworkDataSourceImpl
 import com.mayurg.jetchess.framework.datasource.network.abstraction.JetChessNetworkService
 import com.mayurg.jetchess.framework.datasource.network.implementation.JetChessNetworkServiceImpl
-import com.mayurg.jetchess.framework.datasource.network.mappers.NetworkMapper
 import com.mayurg.jetchess.framework.datasource.network.retrofit.JetChessApiService
 import dagger.Module
 import dagger.Provides
