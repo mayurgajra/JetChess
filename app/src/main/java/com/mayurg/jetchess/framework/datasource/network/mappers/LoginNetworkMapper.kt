@@ -9,19 +9,15 @@ import javax.inject.Inject
 
 class LoginNetworkMapper @Inject constructor() : EntityMapper<LoginUserDTO, LoginUserModel> {
 
-    override fun mapFromEntity(entity: LoginUserDTO): RegisterUserModel {
-        return RegisterUserModel(
-            fullName = entity.fullName,
-            mobile = entity.mobile,
+    override fun mapFromEntity(entity: LoginUserDTO): LoginUserModel {
+        return LoginUserModel(
             email = entity.email,
             password = entity.password
         )
     }
 
-    override fun mapToEntity(domainModel: RegisterUserModel): LoginUserDTO {
+    override fun mapToEntity(domainModel: LoginUserModel): LoginUserDTO {
         return LoginUserDTO(
-            fullName = domainModel.fullName,
-            mobile = domainModel.mobile,
             email = domainModel.email,
             password = domainModel.password
         )

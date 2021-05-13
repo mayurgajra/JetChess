@@ -3,6 +3,7 @@ package com.mayurg.jetchess.framework.presentation.login
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -27,18 +28,30 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.mayurg.jetchess.R
 import com.mayurg.jetchess.framework.presentation.base.BaseActivity
+import com.mayurg.jetchess.framework.presentation.login.state.LoginStateEvent
+import com.mayurg.jetchess.framework.presentation.login.state.LoginUserViewState
 import com.mayurg.jetchess.framework.presentation.register.RegisterActivity
 import com.mayurg.jetchess.util.TextFieldState
 import com.mayurg.jetchess.framework.presentation.utils.reusableviews.LoginRegisterButton
 import com.mayurg.jetchess.framework.presentation.utils.reusableviews.LoginRegisterTextField
 import com.mayurg.jetchess.framework.presentation.utils.reusableviews.PartiallyHighLightedClickableText
 import com.mayurg.jetchess.framework.presentation.utils.themeutils.AppTheme
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.launch
 
+@FlowPreview
+@ExperimentalCoroutinesApi
+@AndroidEntryPoint
 class LoginActivity : BaseActivity() {
+
+    private val viewModel: LoginViewModel by viewModels()
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        viewModel.setupChannel()
         setContent {
             AppTheme {
                 Login()
@@ -101,6 +114,13 @@ class LoginActivity : BaseActivity() {
                         scope.launch {
                             scaffoldState.snackbarHostState.showSnackbar("Password is empty")
                         }
+                    } else {
+                        viewModel.setStateEvent(
+                            LoginStateEvent.LoginUser(
+                                email = emailState.text,
+                                password = passwordState.text
+                            )
+                        )
                     }
                 }
                 Spacer(modifier = Modifier.height(12.dp))

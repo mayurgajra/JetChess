@@ -5,6 +5,8 @@ import com.mayurg.jetchess.business.data.network.abstraction.JetChessNetworkData
 import com.mayurg.jetchess.business.data.network.implementation.JetChessNetworkDataSourceImpl
 import com.mayurg.jetchess.framework.datasource.network.abstraction.JetChessNetworkService
 import com.mayurg.jetchess.framework.datasource.network.implementation.JetChessNetworkServiceImpl
+import com.mayurg.jetchess.framework.datasource.network.mappers.LoginNetworkMapper
+import com.mayurg.jetchess.framework.datasource.network.mappers.RegisterNetworkMapper
 import com.mayurg.jetchess.framework.datasource.network.retrofit.JetChessApiService
 import dagger.Module
 import dagger.Provides
@@ -30,26 +32,39 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun providesNetworkMapper(): NetworkMapper{
-        return NetworkMapper()
+    fun providesRegisterNetworkMapper(): RegisterNetworkMapper {
+        return RegisterNetworkMapper()
+    }
+
+    @Singleton
+    @Provides
+    fun providesLoginNetworkMapper(): LoginNetworkMapper {
+        return LoginNetworkMapper()
     }
 
     @Singleton
     @Provides
     fun providesJetChessNetworkService(
         jetChessApiService: JetChessApiService,
-        networkMapper: NetworkMapper
-    ): JetChessNetworkService{
-        return JetChessNetworkServiceImpl(jetChessApiService,networkMapper)
+        registerNetworkMapper: RegisterNetworkMapper,
+        loginNetworkMapper: LoginNetworkMapper
+    ): JetChessNetworkService {
+        return JetChessNetworkServiceImpl(
+            jetChessApiService,
+            registerNetworkMapper,
+            loginNetworkMapper
+        )
     }
+
 
     @Singleton
     @Provides
     fun provideNetworkDataSource(
         jetChessNetworkService: JetChessNetworkService,
-        networkMapper: NetworkMapper
-    ): JetChessNetworkDataSource{
-        return JetChessNetworkDataSourceImpl(jetChessNetworkService,networkMapper)
+    ): JetChessNetworkDataSource {
+        return JetChessNetworkDataSourceImpl(
+            jetChessNetworkService
+        )
     }
 
 }

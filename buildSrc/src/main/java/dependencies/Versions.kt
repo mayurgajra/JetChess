@@ -11,7 +11,7 @@ object Versions {
     const val material = "1.3.0"
 
     //compose
-    const val composeCore = "1.0.0-beta05"
+    const val composeCore = "1.0.0-beta06"
     const val composeActivity = "1.3.0-alpha03"
 
     //hilt

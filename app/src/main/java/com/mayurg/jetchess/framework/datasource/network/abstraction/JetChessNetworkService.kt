@@ -1,5 +1,6 @@
 package com.mayurg.jetchess.framework.datasource.network.abstraction
 
+import com.mayurg.jetchess.business.domain.model.LoginUserModel
 import com.mayurg.jetchess.business.domain.model.RegisterUserModel
 import com.mayurg.jetchess.framework.datasource.network.model.BaseResponseModel
 

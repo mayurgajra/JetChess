@@ -1,0 +1,54 @@
+package com.mayurg.jetchess.framework.presentation.login
+
+import com.mayurg.jetchess.business.domain.state.DataState
+import com.mayurg.jetchess.business.domain.state.StateEvent
+import com.mayurg.jetchess.business.interactors.UserInteractors
+import com.mayurg.jetchess.framework.presentation.base.BaseViewModel
+import com.mayurg.jetchess.framework.presentation.login.state.LoginStateEvent
+import com.mayurg.jetchess.framework.presentation.login.state.LoginUserViewState
+import com.mayurg.jetchess.framework.presentation.register.state.RegisterStateEvent
+import com.mayurg.jetchess.framework.presentation.register.state.RegisterUserViewState
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
+
+@ExperimentalCoroutinesApi
+@FlowPreview
+@HiltViewModel
+class LoginViewModel @Inject constructor(
+    private val userInteractors: UserInteractors
+) : BaseViewModel<LoginUserViewState>() {
+
+    override fun handleNewData(data: LoginUserViewState) {
+        data.let { viewState ->
+            viewState.baseResponseModel?.let {
+                val state = getCurrentViewStateOrNew()
+                state.baseResponseModel = it
+                setViewState(state)
+            }
+        }
+    }
+
+    override fun setStateEvent(stateEvent: StateEvent) {
+        val job: Flow<DataState<LoginUserViewState>?> = when (stateEvent) {
+
+            is LoginStateEvent.LoginUser -> {
+                userInteractors.loginUser.loginUser(
+                    email = stateEvent.email,
+                    password = stateEvent.password
+                )
+            }
+
+            else -> {
+                emitInvalidStateEvent(stateEvent)
+            }
+        }
+        launchJob(stateEvent, job)
+    }
+
+    override fun initNewViewState(): LoginUserViewState {
+        return LoginUserViewState()
+    }
+}
