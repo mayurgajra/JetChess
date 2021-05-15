@@ -7,6 +7,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
@@ -18,10 +19,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import com.mayurg.jetchess.framework.presentation.base.BaseActivity
 import com.mayurg.jetchess.framework.presentation.register.state.RegisterStateEvent
 import com.mayurg.jetchess.framework.presentation.utils.reusableviews.LoginRegisterButton
@@ -138,20 +142,24 @@ class RegisterActivity : BaseActivity() {
                             }
                         }
                         else -> {
-                            viewModel.setStateEvent(RegisterStateEvent.RegisterUser(
-                                fullName = nameState.text,
-                                mobile = mobileState.text,
-                                email = emailState.text,
-                                password = passwordState.text,
-                                confirmPassword = confirmPasswordState.text
-                            ))
+                            viewModel.setStateEvent(
+                                RegisterStateEvent.RegisterUser(
+                                    fullName = nameState.text,
+                                    mobile = mobileState.text,
+                                    email = emailState.text,
+                                    password = passwordState.text,
+                                    confirmPassword = confirmPasswordState.text
+                                )
+                            )
                         }
                     }
                 }
                 Spacer(modifier = Modifier.height(12.dp))
-                SignInText()
+                SignUpText()
                 Spacer(modifier = Modifier.height(16.dp))
-
+                if (viewModel.shouldDisplayProgressBar.value == true) {
+                    ShowDialog()
+                }
 
             }
         }
@@ -159,7 +167,7 @@ class RegisterActivity : BaseActivity() {
     }
 
     @Composable
-    fun SignInText() {
+    fun SignUpText() {
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -173,5 +181,32 @@ class RegisterActivity : BaseActivity() {
                 onBackPressed()
             }
         }
+    }
+
+    @Composable
+    fun ShowDialog() {
+
+        Dialog(
+            onDismissRequest = {},
+            DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false)
+        ) {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .size(100.dp)
+                    .background(Color.White, shape = RoundedCornerShape(8.dp))
+            ) {
+                CircularProgressIndicator(color = Color.Red)
+                Text(text = "Loading...")
+            }
+        }
+
+
+    }
+
+    fun subscribeObservers() {
+        viewModel.shouldDisplayProgressBar.observe(this, {
+
+        })
     }
 }

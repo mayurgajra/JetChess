@@ -106,21 +106,25 @@ class LoginActivity : BaseActivity() {
                 )
                 Spacer(modifier = Modifier.height(32.dp))
                 LoginRegisterButton("Login") {
-                    if (emailState.text.isEmpty()) {
-                        scope.launch {
-                            scaffoldState.snackbarHostState.showSnackbar("Email is empty")
+                    when {
+                        emailState.text.isEmpty() -> {
+                            scope.launch {
+                                scaffoldState.snackbarHostState.showSnackbar("Email is empty")
+                            }
                         }
-                    } else if (passwordState.text.isEmpty()) {
-                        scope.launch {
-                            scaffoldState.snackbarHostState.showSnackbar("Password is empty")
+                        passwordState.text.isEmpty() -> {
+                            scope.launch {
+                                scaffoldState.snackbarHostState.showSnackbar("Password is empty")
+                            }
                         }
-                    } else {
-                        viewModel.setStateEvent(
-                            LoginStateEvent.LoginUser(
-                                email = emailState.text,
-                                password = passwordState.text
+                        else -> {
+                            viewModel.setStateEvent(
+                                LoginStateEvent.LoginUser(
+                                    email = emailState.text,
+                                    password = passwordState.text
+                                )
                             )
-                        )
+                        }
                     }
                 }
                 Spacer(modifier = Modifier.height(12.dp))
