@@ -1,6 +1,7 @@
 package com.mayurg.jetchess.framework.presentation.register
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.background
@@ -14,7 +15,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,6 +38,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.launch
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.remember
+import com.mayurg.jetchess.business.domain.state.UIComponentType
+import com.mayurg.jetchess.framework.presentation.register.state.RegisterUserViewState
+
 
 @FlowPreview
 @ExperimentalCoroutinesApi
@@ -48,6 +54,7 @@ class RegisterActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.setupChannel()
+        subscribeObservers()
         setContent {
             AppTheme {
                 Register()
@@ -157,9 +164,8 @@ class RegisterActivity : BaseActivity() {
                 Spacer(modifier = Modifier.height(12.dp))
                 SignUpText()
                 Spacer(modifier = Modifier.height(16.dp))
-                if (viewModel.shouldDisplayProgressBar.value == true) {
-                    ShowDialog()
-                }
+                ShowDialog()
+
 
             }
         }
@@ -185,28 +191,42 @@ class RegisterActivity : BaseActivity() {
 
     @Composable
     fun ShowDialog() {
+        val showDialog by viewModel.shouldDisplayProgressBar.observeAsState()
 
-        Dialog(
-            onDismissRequest = {},
-            DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false)
-        ) {
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .size(100.dp)
-                    .background(Color.White, shape = RoundedCornerShape(8.dp))
+        if (showDialog == true) {
+            Dialog(
+                onDismissRequest = {},
+                DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false)
             ) {
-                CircularProgressIndicator(color = Color.Red)
-                Text(text = "Loading...")
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .size(120.dp)
+                        .background(Color.White, shape = RoundedCornerShape(8.dp))
+                ) {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        CircularProgressIndicator(color = MaterialTheme.colors.secondary)
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = "Signing Up...",
+                            style = MaterialTheme.typography.h6,
+                            color = Color.Black
+                        )
+                    }
+                }
             }
         }
-
-
     }
 
     fun subscribeObservers() {
-        viewModel.shouldDisplayProgressBar.observe(this, {
-
-        })
+        viewModel.viewState.observe(this){
+            it?.baseResponseModel?.let { model  ->
+                Toast.makeText(this,model.message,Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }

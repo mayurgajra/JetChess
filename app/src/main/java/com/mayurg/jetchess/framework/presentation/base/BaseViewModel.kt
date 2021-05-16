@@ -7,33 +7,33 @@ import com.mayurg.jetchess.util.printLogD
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import java.util.*
 
 
 @FlowPreview
 @ExperimentalCoroutinesApi
-abstract class BaseViewModel<ViewState> : ViewModel()
-{
+abstract class BaseViewModel<ViewState> : ViewModel() {
     private val _viewState: MutableLiveData<ViewState> = MutableLiveData()
 
-    val dataChannelManager: DataChannelManager<ViewState>
-            = object: DataChannelManager<ViewState>(){
+    val dataChannelManager: DataChannelManager<ViewState> =
+        object : DataChannelManager<ViewState>() {
 
-        override fun handleNewData(data: ViewState) {
-            this@BaseViewModel.handleNewData(data)
+            override fun handleNewData(data: ViewState) {
+                this@BaseViewModel.handleNewData(data)
+            }
         }
-    }
 
     val viewState: LiveData<ViewState>
         get() = _viewState
 
-    val shouldDisplayProgressBar: LiveData<Boolean>
-            = dataChannelManager.shouldDisplayProgressBar
+
+    val shouldDisplayProgressBar: LiveData<Boolean> = dataChannelManager.shouldDisplayProgressBar
 
     val stateMessage: LiveData<StateMessage?>
         get() = dataChannelManager.messageStack.stateMessage
 
     // FOR DEBUGGING
-    fun getMessageStackSize(): Int{
+    fun getMessageStackSize(): Int {
         return dataChannelManager.messageStack.size
     }
 
@@ -46,7 +46,7 @@ abstract class BaseViewModel<ViewState> : ViewModel()
     fun emitStateMessageEvent(
         stateMessage: StateMessage,
         stateEvent: StateEvent
-    ) = flow{
+    ) = flow {
         emit(
             DataState.error<ViewState>(
                 response = stateMessage.response,
@@ -73,15 +73,15 @@ abstract class BaseViewModel<ViewState> : ViewModel()
         jobFunction: Flow<DataState<ViewState>?>
     ) = dataChannelManager.launchJob(stateEvent, jobFunction)
 
-    fun getCurrentViewStateOrNew(): ViewState{
+    fun getCurrentViewStateOrNew(): ViewState {
         return viewState.value ?: initNewViewState()
     }
 
-    fun setViewState(viewState: ViewState){
+    fun setViewState(viewState: ViewState) {
         _viewState.value = viewState
     }
 
-    fun clearStateMessage(index: Int = 0){
+    fun clearStateMessage(index: Int = 0) {
         printLogD("BaseViewModel", "clearStateMessage")
         dataChannelManager.clearStateMessage(index)
     }

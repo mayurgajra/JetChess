@@ -9,6 +9,7 @@ object Compose {
     const val material = "androidx.compose.material:material:${Versions.composeCore}"
     const val materialIconsExt = "androidx.compose.material:material-icons-extended:${Versions.composeCore}"
     const val runtime = "androidx.compose.runtime:runtime:${Versions.composeCore}"
+    const val runtimeLivedata = "androidx.compose.runtime:runtime-livedata:${Versions.composeCore}"
     const val tooling = "androidx.compose.ui:ui-tooling:${Versions.composeCore}"
     const val activities = "androidx.activity:activity-compose:${Versions.composeActivity}"
 }
