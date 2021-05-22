@@ -15,7 +15,7 @@ abstract class ApiResponseHandler <ViewState, Data>(
                 DataState.error(
                     response = Response(
                         message = response.errorMessage,
-                        uiComponentType = UIComponentType.Dialog(),
+                        uiComponentType = UIComponentType.Toast(),
                         messageType = MessageType.Error()
                     ),
                     stateEvent = stateEvent
@@ -26,7 +26,7 @@ abstract class ApiResponseHandler <ViewState, Data>(
                 DataState.error(
                     response = Response(
                         message = NetworkErrors.NETWORK_ERROR,
-                        uiComponentType = UIComponentType.Dialog(),
+                        uiComponentType = UIComponentType.Toast(),
                         messageType = MessageType.Error()
                     ),
                     stateEvent = stateEvent
@@ -38,7 +38,7 @@ abstract class ApiResponseHandler <ViewState, Data>(
                     DataState.error(
                         response = Response(
                             message = NetworkErrors.NETWORK_DATA_NULL,
-                            uiComponentType = UIComponentType.Dialog(),
+                            uiComponentType = UIComponentType.Toast(),
                             messageType = MessageType.Error()
                         ),
                         stateEvent = stateEvent

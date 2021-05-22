@@ -6,8 +6,6 @@ import com.mayurg.jetchess.business.interactors.UserInteractors
 import com.mayurg.jetchess.framework.presentation.base.BaseViewModel
 import com.mayurg.jetchess.framework.presentation.login.state.LoginStateEvent
 import com.mayurg.jetchess.framework.presentation.login.state.LoginUserViewState
-import com.mayurg.jetchess.framework.presentation.register.state.RegisterStateEvent
-import com.mayurg.jetchess.framework.presentation.register.state.RegisterUserViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -37,7 +35,8 @@ class LoginViewModel @Inject constructor(
             is LoginStateEvent.LoginUser -> {
                 userInteractors.loginUser.loginUser(
                     email = stateEvent.email,
-                    password = stateEvent.password
+                    password = stateEvent.password,
+                    stateEvent = stateEvent
                 )
             }
 

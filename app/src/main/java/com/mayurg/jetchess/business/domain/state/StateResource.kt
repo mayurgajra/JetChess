@@ -18,15 +18,6 @@ sealed class UIComponentType{
 
     class Dialog: UIComponentType()
 
-    class AreYouSureDialog(
-        val callback: AreYouSureCallback
-    ): UIComponentType()
-
-    class SnackBar(
-        val undoCallback: SnackbarUndoCallback? = null,
-        val onDismissCallback: TodoCallback? = null
-    ): UIComponentType()
-
     class None: UIComponentType()
 }
 

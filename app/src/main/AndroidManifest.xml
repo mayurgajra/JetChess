@@ -1,31 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.mayurg.jetchess">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".framework.presentation.base.BaseApplication"
         android:allowBackup="true"
         android:fullBackupOnly="true"
-        android:name=".framework.presentation.base.BaseApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/Theme.JetChess">
+        android:theme="@style/Theme.JetChess"
+        android:usesCleartextTraffic="true">
         <activity
             android:name=".framework.presentation.login.LoginActivity"
             android:exported="true" />
 
         <activity
             android:name=".framework.presentation.register.RegisterActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize"
-            android:exported="true" />
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".framework.presentation.splash.SplashActivity"
             android:exported="true"
-            android:theme="@style/SplashTheme">
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashTheme"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -34,7 +39,9 @@
         </activity>
         <activity
             android:name=".framework.presentation.main.MainActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
     </application>
 
 </manifest>

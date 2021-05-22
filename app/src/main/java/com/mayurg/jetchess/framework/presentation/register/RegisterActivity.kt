@@ -16,6 +16,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,10 +40,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.launch
-import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.remember
-import com.mayurg.jetchess.business.domain.state.UIComponentType
-import com.mayurg.jetchess.framework.presentation.register.state.RegisterUserViewState
 
 
 @FlowPreview

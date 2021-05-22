@@ -12,4 +12,5 @@ object Compose {
     const val runtimeLivedata = "androidx.compose.runtime:runtime-livedata:${Versions.composeCore}"
     const val tooling = "androidx.compose.ui:ui-tooling:${Versions.composeCore}"
     const val activities = "androidx.activity:activity-compose:${Versions.composeActivity}"
+    const val navigation  = "androidx.navigation:navigation-compose:2.4.0-alpha01"
 }

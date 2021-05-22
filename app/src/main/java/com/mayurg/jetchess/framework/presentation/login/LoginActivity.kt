@@ -2,34 +2,40 @@ package com.mayurg.jetchess.framework.presentation.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import com.mayurg.jetchess.R
+import com.mayurg.jetchess.business.domain.state.StateMessageCallback
 import com.mayurg.jetchess.framework.presentation.base.BaseActivity
 import com.mayurg.jetchess.framework.presentation.login.state.LoginStateEvent
 import com.mayurg.jetchess.framework.presentation.login.state.LoginUserViewState
+import com.mayurg.jetchess.framework.presentation.main.MainActivity
 import com.mayurg.jetchess.framework.presentation.register.RegisterActivity
 import com.mayurg.jetchess.util.TextFieldState
 import com.mayurg.jetchess.framework.presentation.utils.reusableviews.LoginRegisterButton
@@ -51,6 +57,7 @@ class LoginActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.setupChannel()
+        subscribeObservers()
         setContent {
             AppTheme {
                 Login()
@@ -134,6 +141,7 @@ class LoginActivity : BaseActivity() {
                     textDecoration = TextDecoration.Underline
                 )
                 SignUpText()
+                ShowDialog()
 
             }
         }
@@ -163,6 +171,13 @@ class LoginActivity : BaseActivity() {
         startActivity(intent)
     }
 
+    private fun moveToMain() {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        startActivity(intent)
+        finishAffinity()
+    }
+
 
     @Composable
     fun LoginLogo() {
@@ -173,6 +188,63 @@ class LoginActivity : BaseActivity() {
                 .width(120.dp)
                 .height(120.dp)
         )
+    }
+
+    @Composable
+    fun ShowDialog() {
+        val showDialog by viewModel.shouldDisplayProgressBar.observeAsState()
+
+        if (showDialog == true) {
+            Dialog(
+                onDismissRequest = {},
+                DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false)
+            ) {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .size(120.dp)
+                        .background(Color.White, shape = RoundedCornerShape(8.dp))
+                ) {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        CircularProgressIndicator(color = MaterialTheme.colors.secondary)
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = "Logging In...",
+                            style = MaterialTheme.typography.h6,
+                            color = Color.Black
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    fun subscribeObservers() {
+        viewModel.viewState.observe(this) {
+            it?.baseResponseModel?.let { model ->
+                Toast.makeText(this, model.message, Toast.LENGTH_SHORT).show()
+                moveToMain()
+            }
+        }
+
+        viewModel.shouldDisplayProgressBar.observe(this) {
+            Toast.makeText(this, it.toString(), Toast.LENGTH_SHORT).show()
+        }
+
+        viewModel.stateMessage.observe(this) { stateMessage ->
+            stateMessage?.let { msg ->
+                onResponseReceived(msg.response, stateMessageCallback = object :
+                    StateMessageCallback {
+                    override fun removeMessageFromStack() {
+                        viewModel.clearStateMessage()
+                    }
+                })
+            }
+        }
     }
 
 
