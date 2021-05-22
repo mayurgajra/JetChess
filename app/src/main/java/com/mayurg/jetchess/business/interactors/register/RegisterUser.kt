@@ -5,6 +5,7 @@ import com.mayurg.jetchess.business.data.network.abstraction.JetChessNetworkData
 import com.mayurg.jetchess.business.data.util.safeApiCall
 import com.mayurg.jetchess.business.domain.model.RegisterUserFactory
 import com.mayurg.jetchess.business.domain.state.DataState
+import com.mayurg.jetchess.business.domain.state.StateEvent
 import com.mayurg.jetchess.framework.datasource.network.model.BaseResponseModel
 import com.mayurg.jetchess.framework.presentation.register.state.RegisterUserViewState
 import kotlinx.coroutines.Dispatchers.IO
@@ -22,6 +23,7 @@ class RegisterUser @Inject constructor(
         mobile: String,
         email: String,
         password: String,
+        stateEvent: StateEvent,
     ): Flow<DataState<RegisterUserViewState>?> = flow {
         val user = registerUserFactory.createUser(fullName, mobile, email, password)
 
@@ -31,7 +33,7 @@ class RegisterUser @Inject constructor(
 
         val response = object : ApiResponseHandler<RegisterUserViewState, BaseResponseModel>(
             response = callResult,
-            stateEvent = null
+            stateEvent = stateEvent
         ) {
             override suspend fun handleSuccess(resultObj: BaseResponseModel): DataState<RegisterUserViewState>? {
                 return DataState.data(

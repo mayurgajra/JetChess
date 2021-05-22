@@ -39,7 +39,15 @@ class RegisterUserViewModel
                     fullName = stateEvent.fullName,
                     email = stateEvent.email,
                     mobile = stateEvent.mobile,
-                    password = stateEvent.password
+                    password = stateEvent.password,
+                    stateEvent = stateEvent
+                )
+            }
+
+            is RegisterStateEvent.CreateStateMessageEvent -> {
+                emitStateMessageEvent(
+                    stateMessage = stateEvent.stateMessage,
+                    stateEvent = stateEvent
                 )
             }
 

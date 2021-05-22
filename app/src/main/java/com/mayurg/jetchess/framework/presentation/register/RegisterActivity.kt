@@ -223,10 +223,14 @@ class RegisterActivity : BaseActivity() {
     }
 
     fun subscribeObservers() {
-        viewModel.viewState.observe(this){
-            it?.baseResponseModel?.let { model  ->
-                Toast.makeText(this,model.message,Toast.LENGTH_SHORT).show()
+        viewModel.viewState.observe(this) {
+            it?.baseResponseModel?.let { model ->
+                Toast.makeText(this, model.message, Toast.LENGTH_SHORT).show()
             }
+        }
+
+        viewModel.shouldDisplayProgressBar.observe(this) {
+            Toast.makeText(this, it.toString(), Toast.LENGTH_SHORT).show()
         }
     }
 }

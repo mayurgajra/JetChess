@@ -48,7 +48,6 @@ class LoginActivity : BaseActivity() {
 
     private val viewModel: LoginViewModel by viewModels()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.setupChannel()
