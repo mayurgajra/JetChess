@@ -1,5 +1,6 @@
 package com.mayurg.jetchess.framework.presentation.main
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.material.*
@@ -16,6 +17,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.mayurg.jetchess.framework.presentation.base.BaseActivity
+import com.mayurg.jetchess.framework.presentation.playgame.PlayGameActivity
 
 
 class MainActivity : BaseActivity() {
@@ -37,7 +39,7 @@ class MainActivity : BaseActivity() {
         val currentScreen by viewModel.currentScreen.observeAsState()
 
         val bottomBar: @Composable () -> Unit = {
-            if (currentScreen == Screens.HomeScreens.Favorite || currentScreen is Screens.HomeScreens) {
+            if (currentScreen == Screens.MainScreens.Home || currentScreen is Screens.MainScreens) {
                 BottomBar(
                     navController = navController,
                     screens = screensInHomeFromBottomNav
@@ -60,23 +62,33 @@ class MainActivity : BaseActivity() {
     fun NavigationHost(navController: NavController, viewModel: MainViewModel) {
         NavHost(
             navController = navController as NavHostController,
-            startDestination = Screens.HomeScreens.Favorite.route
+            startDestination = Screens.MainScreens.Home.route
         ) {
-            composable(Screens.HomeScreens.Favorite.route) { Favorite(viewModel = viewModel) }
-            composable(Screens.HomeScreens.Notification.route) { Notification(viewModel = viewModel) }
-            composable(Screens.HomeScreens.MyNetwork.route) { MyNetwork(viewModel = viewModel) }
+            composable(Screens.MainScreens.Home.route) {
+                Home(viewModel = viewModel, onClick = {
+                    moveToGame()
+                })
+            }
+            composable(Screens.MainScreens.Friends.route) { Friends(viewModel = viewModel) }
+            composable(Screens.MainScreens.Profile.route) { Profile(viewModel = viewModel) }
         }
+    }
+
+    private fun moveToGame() {
+        val intent = Intent(this, PlayGameActivity::class.java)
+        startActivity(intent)
     }
 
     @Composable
     fun BottomBar(
         modifier: Modifier = Modifier,
-        screens: List<Screens.HomeScreens>,
+        screens: List<Screens.MainScreens>,
         navController: NavController
     ) {
         BottomNavigation(modifier = modifier) {
             val navBackStackEntry by navController.currentBackStackEntryAsState()
-            val currentRoute = navBackStackEntry?.arguments?.getString("android-support-nav:controller:route")
+            val currentRoute =
+                navBackStackEntry?.arguments?.getString("android-support-nav:controller:route")
             screens.forEach { screen ->
                 BottomNavigationItem(
                     icon = { Icon(imageVector = screen.icon, contentDescription = "") },

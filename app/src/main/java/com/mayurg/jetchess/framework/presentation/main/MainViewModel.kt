@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModel
  */
 class MainViewModel : ViewModel() {
 
-    private val _currentScreen = MutableLiveData<Screens>(Screens.HomeScreens.Favorite)
+    private val _currentScreen = MutableLiveData<Screens>(Screens.MainScreens.Home)
     val currentScreen: LiveData<Screens> = _currentScreen
 
     fun setCurrentScreen(screen: Screens) {

@@ -43,11 +43,12 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+        freeCompilerArgs += "-Xallow-jvm-ir-dependencies"
     }
 
     composeOptions {
         kotlinCompilerVersion Versions.kotlinPlugin
-        kotlinCompilerExtensionVersion "1.0.0-beta06"
+        kotlinCompilerExtensionVersion "1.0.0-beta07"
     }
 }
 
@@ -81,7 +82,8 @@ dependencies {
 
     //Dagger-Hilt
     implementation Hilt.hilt
-    implementation 'androidx.navigation:navigation-runtime-ktx:2.3.5'
+    implementation 'androidx.appcompat:appcompat:1.3.0'
+    implementation 'com.google.android.material:material:1.3.0'
     kapt Hilt.daggerHiltCompiler
     implementation Hilt.hiltViewModel
     kapt Hilt.hiltCompiler
@@ -93,12 +95,12 @@ dependencies {
     //local tests
     testImplementation LocalTests.junit4
     testImplementation LocalTests.hiltTesting
-    kaptTest  LocalTests.hiltTestingCompiler
+    kaptTest LocalTests.hiltTestingCompiler
 
     //instrumented tests
     androidTestImplementation InstrumentedTests.junit
     androidTestImplementation InstrumentedTests.espressoCore
     androidTestImplementation InstrumentedTests.hiltAndroidTest
-    kaptAndroidTest  InstrumentedTests.hiltAndroidTestCompiler
+    kaptAndroidTest InstrumentedTests.hiltAndroidTestCompiler
 
 }
