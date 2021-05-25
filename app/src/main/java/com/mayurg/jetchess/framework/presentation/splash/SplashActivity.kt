@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -29,6 +30,7 @@ import com.mayurg.jetchess.framework.presentation.utils.themeutils.AppTheme
  * 1.) Make sync calls
  * 2.) Redirection logic
  */
+@ExperimentalFoundationApi
 class SplashActivity : BaseActivity() {
 
     companion object {
@@ -85,7 +87,7 @@ class SplashActivity : BaseActivity() {
     }
 
     @Composable
-    fun SplashLogo(){
+    fun SplashLogo() {
         Image(
             painter = painterResource(R.drawable.ic_vector_app_logo),
             contentDescription = "Splash Logo",
@@ -96,7 +98,7 @@ class SplashActivity : BaseActivity() {
     }
 
     @Composable
-    fun SplashText(){
+    fun SplashText() {
         Text(
             stringResource(id = R.string.app_name),
             style = MaterialTheme.typography.h3
