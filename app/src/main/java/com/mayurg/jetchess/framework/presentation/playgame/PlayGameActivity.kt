@@ -33,19 +33,21 @@ class PlayGameActivity : BaseActivity() {
 
     @Composable
     fun Board() {
-        val numbers = (1..64).toList()
-
-        LazyVerticalGrid(
-            cells = GridCells.Fixed(8)
-        ) {
-            items(numbers.size) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(32.dp)
-                        .background(color = if (it % 2 == 0) darkSquare else lightSquare),
-                ) {
-                    Text(text = "A")
+        Column {
+            for (i in 0 until 8) {
+                Row {
+                    for (j in 0 until 8) {
+                        val isLightSquare = i % 2 == j % 2
+                        val squareColor = if (isLightSquare) lightSquare else darkSquare
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .aspectRatio(1f)
+                                .background(squareColor)
+                        ) {
+                            Text(text = "${i + j}")
+                        }
+                    }
                 }
             }
         }

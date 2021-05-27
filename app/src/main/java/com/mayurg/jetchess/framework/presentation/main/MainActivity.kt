@@ -4,12 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
@@ -19,6 +21,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.mayurg.jetchess.framework.presentation.base.BaseActivity
 import com.mayurg.jetchess.framework.presentation.playgame.PlayGameActivity
+import com.mayurg.jetchess.framework.presentation.utils.themeutils.primaryColor
 
 @ExperimentalFoundationApi
 class MainActivity : BaseActivity() {
@@ -92,7 +95,7 @@ class MainActivity : BaseActivity() {
                 navBackStackEntry?.arguments?.getString("android-support-nav:controller:route")
             screens.forEach { screen ->
                 BottomNavigationItem(
-                    icon = { Icon(imageVector = screen.icon, contentDescription = "") },
+                    icon = { Icon(imageVector = screen.icon, contentDescription = "")},
                     label = { Text(screen.title) },
                     selected = currentRoute == screen.route,
                     onClick = {
