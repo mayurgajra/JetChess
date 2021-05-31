@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.mayurg.jetchess.framework.presentation.base.BaseActivity
+import com.mayurg.jetchess.framework.presentation.utils.themeutils.AppTheme
 
 @ExperimentalFoundationApi
 class PlayGameActivity : BaseActivity() {
@@ -25,8 +26,10 @@ class PlayGameActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            Column {
-                Board()
+            AppTheme{
+                Column {
+                    Board()
+                }
             }
         }
     }

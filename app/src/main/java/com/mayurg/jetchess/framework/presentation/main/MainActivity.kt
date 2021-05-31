@@ -21,6 +21,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.mayurg.jetchess.framework.presentation.base.BaseActivity
 import com.mayurg.jetchess.framework.presentation.playgame.PlayGameActivity
+import com.mayurg.jetchess.framework.presentation.utils.themeutils.AppTheme
+import com.mayurg.jetchess.framework.presentation.utils.themeutils.background
 import com.mayurg.jetchess.framework.presentation.utils.themeutils.primaryColor
 
 @ExperimentalFoundationApi
@@ -29,7 +31,9 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            AppScaffold()
+            AppTheme {
+                AppScaffold()
+            }
         }
 
     }
@@ -89,13 +93,16 @@ class MainActivity : BaseActivity() {
         screens: List<Screens.MainScreens>,
         navController: NavController
     ) {
-        BottomNavigation(modifier = modifier) {
+        BottomNavigation(
+            modifier = modifier.background(Color.Black)
+        ) {
             val navBackStackEntry by navController.currentBackStackEntryAsState()
-            val currentRoute =
-                navBackStackEntry?.arguments?.getString("android-support-nav:controller:route")
+            val currentRoute = navBackStackEntry?.destination?.route
             screens.forEach { screen ->
                 BottomNavigationItem(
-                    icon = { Icon(imageVector = screen.icon, contentDescription = "")},
+                    selectedContentColor = MaterialTheme.colors.secondary,
+                    unselectedContentColor = Color.Gray,
+                    icon = { Icon(imageVector = screen.icon, contentDescription = "") },
                     label = { Text(screen.title) },
                     selected = currentRoute == screen.route,
                     onClick = {
