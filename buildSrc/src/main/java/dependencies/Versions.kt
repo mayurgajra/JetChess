@@ -13,6 +13,8 @@ object Versions {
     //compose
     const val composeCore = "1.0.0-beta07"
     const val composeActivity = "1.3.0-alpha03"
+    const val composeConstraint = "1.0.0-alpha06"
+    const val composeNavigation = "2.4.0-alpha01"
 
     //hilt
     const val hilt = "2.36"

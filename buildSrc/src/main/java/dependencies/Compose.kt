@@ -7,10 +7,14 @@ object Compose {
     const val foundation = "androidx.compose.foundation:foundation:${Versions.composeCore}"
     const val layout = "androidx.compose.foundation:foundation-layout:${Versions.composeCore}"
     const val material = "androidx.compose.material:material:${Versions.composeCore}"
-    const val materialIconsExt = "androidx.compose.material:material-icons-extended:${Versions.composeCore}"
+    const val materialIconsExt =
+        "androidx.compose.material:material-icons-extended:${Versions.composeCore}"
     const val runtime = "androidx.compose.runtime:runtime:${Versions.composeCore}"
     const val runtimeLivedata = "androidx.compose.runtime:runtime-livedata:${Versions.composeCore}"
     const val tooling = "androidx.compose.ui:ui-tooling:${Versions.composeCore}"
     const val activities = "androidx.activity:activity-compose:${Versions.composeActivity}"
-    const val navigation  = "androidx.navigation:navigation-compose:2.4.0-alpha01"
+    const val navigation = "androidx.navigation:navigation-compose:${Versions.composeNavigation}"
+    const val constraint =
+        "androidx.constraintlayout:constraintlayout-compose:${Versions.composeConstraint}"
+
 }

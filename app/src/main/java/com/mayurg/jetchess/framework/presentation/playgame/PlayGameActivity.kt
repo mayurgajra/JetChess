@@ -20,40 +20,19 @@ import com.mayurg.jetchess.framework.presentation.utils.themeutils.AppTheme
 
 @ExperimentalFoundationApi
 class PlayGameActivity : BaseActivity() {
-    val darkSquare = Color(0xFF779556)
-    val lightSquare = Color(0xFFEBECD0)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             AppTheme{
                 Column {
-                    Board()
+
                 }
             }
         }
     }
 
-    @Composable
-    fun Board() {
-        Column {
-            for (i in 0 until 8) {
-                Row {
-                    for (j in 0 until 8) {
-                        val isLightSquare = i % 2 == j % 2
-                        val squareColor = if (isLightSquare) lightSquare else darkSquare
-                        Box(
-                            modifier = Modifier
-                                .weight(1f)
-                                .aspectRatio(1f)
-                                .background(squareColor)
-                        ) {
-                            Text(text = "${i + j}")
-                        }
-                    }
-                }
-            }
-        }
-    }
+
 
 }

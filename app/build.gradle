@@ -76,6 +76,7 @@ dependencies {
     implementation Compose.tooling
     implementation Compose.activities
     implementation Compose.navigation
+    implementation Compose.constraint
 
     //idling resource
     implementation InstrumentedTests.idlingResource
