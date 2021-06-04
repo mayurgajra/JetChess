@@ -19,8 +19,9 @@ import com.mayurg.jetchess.framework.presentation.playgame.pieceview.PiecePositi
 @Composable
 fun BoardMainContainer() {
     Box {
+        val board = Board()
         BoardBg()
-//        BoardPiecesSetup(pieces = ,)
+        BoardPiecesSetup(pieces = board.allPieces)
     }
 }
 
@@ -54,7 +55,7 @@ private fun BoardPiecesSetup(
     pieces: List<Pair<PiecePosition, Piece>>
 ) {
     val constrains = constrainsForGivenPieces(pieces)
-    ConstraintLayout(constrains,modifier) {
+    ConstraintLayout(constrains, modifier) {
         pieces.forEach { (_, piece) ->
             PieceView(piece = piece, modifier = Modifier.layoutId(piece.id))
         }
@@ -63,20 +64,23 @@ private fun BoardPiecesSetup(
 
 @Composable
 fun PieceView(piece: Piece, modifier: Modifier = Modifier) {
-    Image(painter = painterResource(id = piece.getPieceDrawable()),
-        contentDescription = "", modifier = modifier.padding(4.dp))
+    Image(
+        painter = painterResource(id = piece.getPieceDrawable()),
+        contentDescription = "", modifier = modifier.padding(4.dp)
+    )
 }
 
-private val INITIAL_BOARD = listOf(
-    listOf("BR0", "BN1", "BB2", "BQ3", "BK4", "BB5", "BN6", "BR7").map { Piece.pieceFromString(it) },
-    listOf("BP0", "BP1", "BP2", "BP3", "BP4", "BP5", "BP6", "BP7").map { Piece.pieceFromString(it) },
+val INITIAL_BOARD = listOf(
+    listOf("BR0", "BN1", "BB2", "BQ3", "BK4", "BB5", "BN6", "BR7").map { Piece.pieceFromId(it) },
+    listOf("BP0", "BP1", "BP2", "BP3", "BP4", "BP5", "BP6", "BP7").map { Piece.pieceFromId(it) },
     listOf(null, null, null, null, null, null, null, null),
     listOf(null, null, null, null, null, null, null, null),
     listOf(null, null, null, null, null, null, null, null),
     listOf(null, null, null, null, null, null, null, null),
-    listOf("WP0", "WP1", "WP2", "WP3", "WP4", "WP5", "WP6", "WP7").map { Piece.pieceFromString(it) },
-    listOf("WR0", "WN1", "WB2", "WQ3", "WK4", "WB5", "WN6", "WR7").map { Piece.pieceFromString(it) }
+    listOf("WP0", "WP1", "WP2", "WP3", "WP4", "WP5", "WP6", "WP7").map { Piece.pieceFromId(it) },
+    listOf("WR0", "WN1", "WB2", "WQ3", "WK4", "WB5", "WN6", "WR7").map { Piece.pieceFromId(it) }
 )
+val STARTING_PIECES = INITIAL_BOARD.flatten().filterNotNull()
 
 fun constrainsForGivenPieces(pieces: List<Pair<PiecePosition, Piece>>): ConstraintSet {
     return ConstraintSet {

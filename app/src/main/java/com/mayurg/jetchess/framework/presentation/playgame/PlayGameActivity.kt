@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.mayurg.jetchess.framework.presentation.base.BaseActivity
+import com.mayurg.jetchess.framework.presentation.playgame.boardview.BoardMainContainer
 import com.mayurg.jetchess.framework.presentation.utils.themeutils.AppTheme
 
 @ExperimentalFoundationApi
@@ -27,7 +28,7 @@ class PlayGameActivity : BaseActivity() {
         setContent {
             AppTheme{
                 Column {
-
+                    BoardMainContainer()
                 }
             }
         }

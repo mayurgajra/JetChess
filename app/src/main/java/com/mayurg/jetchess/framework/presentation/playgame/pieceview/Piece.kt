@@ -9,7 +9,7 @@ data class Piece(
     val pieceColor: PieceColor
 ) {
     companion object {
-        fun pieceFromString(id: String): Piece {
+        fun pieceFromId(id: String): Piece {
             val type = getPieceTypesFromId(id)
             return Piece(id, type.first, type.second)
         }
