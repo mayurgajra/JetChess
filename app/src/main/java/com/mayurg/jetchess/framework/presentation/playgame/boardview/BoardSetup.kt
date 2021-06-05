@@ -21,7 +21,7 @@ fun BoardMainContainer() {
     Box {
         val board = Board()
         BoardBg()
-        BoardPiecesSetup(pieces = board.allPieces)
+        BoardPiecesSetup(pieces = board.allPieces,modifier = Modifier.fillMaxWidth().aspectRatio(1.0f))
     }
 }
 
@@ -41,7 +41,7 @@ private fun BoardBg() {
                             .aspectRatio(1f)
                             .background(squareColor)
                     ) {
-                        Text(text = "${i + j}")
+//                        Text(text = "${i + j}")
                     }
                 }
             }
