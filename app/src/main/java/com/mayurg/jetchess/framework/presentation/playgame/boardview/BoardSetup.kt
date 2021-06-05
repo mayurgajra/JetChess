@@ -1,11 +1,19 @@
 package com.mayurg.jetchess.framework.presentation.playgame.boardview
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.res.painterResource
@@ -13,6 +21,8 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
+import com.mayurg.jetchess.framework.presentation.playgame.boardview.BoardColors.darkSquare
+import com.mayurg.jetchess.framework.presentation.playgame.boardview.BoardColors.lightSquare
 import com.mayurg.jetchess.framework.presentation.playgame.pieceview.Piece
 import com.mayurg.jetchess.framework.presentation.playgame.pieceview.PiecePosition
 
@@ -21,14 +31,18 @@ fun BoardMainContainer() {
     Box {
         val board = Board()
         BoardBg()
-        BoardPiecesSetup(pieces = board.allPieces,modifier = Modifier.fillMaxWidth().aspectRatio(1.0f))
+        BoardPiecesSetup(
+            pieces = board.allPieces,
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(1.0f)
+        )
+        MovesOverlay(board, listOf())
     }
 }
 
 @Composable
 private fun BoardBg() {
-    val darkSquare = Color(0xFF779556)
-    val lightSquare = Color(0xFFEBECD0)
     Column {
         for (i in 0 until 8) {
             Row {
@@ -41,7 +55,22 @@ private fun BoardBg() {
                             .aspectRatio(1f)
                             .background(squareColor)
                     ) {
-//                        Text(text = "${i + j}")
+                        if (i == 7) {
+                            Text(
+                                text = "${'a' + j}",
+                                modifier = Modifier.align(Alignment.BottomEnd),
+                                style = MaterialTheme.typography.caption,
+                                color = Color.Black.copy(0.5f)
+                            )
+                        }
+                        if (j == 0) {
+                            Text(
+                                text = "${8 - i}",
+                                modifier = Modifier.align(Alignment.TopStart),
+                                style = MaterialTheme.typography.caption,
+                                color = Color.Black.copy(0.5f)
+                            )
+                        }
                     }
                 }
             }
@@ -68,6 +97,43 @@ fun PieceView(piece: Piece, modifier: Modifier = Modifier) {
         painter = painterResource(id = piece.getPieceDrawable()),
         contentDescription = "", modifier = modifier.padding(4.dp)
     )
+}
+
+@OptIn(ExperimentalAnimationApi::class)
+@Composable
+fun MovesOverlay(board: Board, movesList: List<PiecePosition>) {
+    Column {
+        for (i in 0 until 8) {
+            Row {
+                for (j in 0 until 8) {
+                    val position = PiecePosition(j, i)
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .aspectRatio(1f)
+                    ) {
+                        val piece = board.pieceAt(position)
+                        val selected = movesList.contains(position)
+                        androidx.compose.animation.AnimatedVisibility(
+                            visible = selected,
+                            modifier = Modifier.matchParentSize(),
+                            enter = fadeIn(),
+                            exit = fadeOut()
+                        ) {
+                            val color = if (piece != null) BoardColors.pieceUnderAttackColor
+                            else BoardColors.currentMoveColor
+                            Box(
+                                Modifier
+                                    .clip(CircleShape)
+                                    .background(color)
+                                    .size(16.dp)
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 val INITIAL_BOARD = listOf(

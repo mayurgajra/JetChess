@@ -8,6 +8,7 @@ data class Board(val pieces: List<List<Piece?>> = INITIAL_BOARD) {
         private val ALL_POSITIONS = (0 until 8).flatMap { y ->
             (0 until 8).map { x -> PiecePosition(x, y) }
         }
+
     }
 
     val allPositions = ALL_POSITIONS
@@ -17,4 +18,10 @@ data class Board(val pieces: List<List<Piece?>> = INITIAL_BOARD) {
                 position to it
             }
         }
+
+    fun pieceAt(position: PiecePosition): Piece?{
+        return pieces.getOrNull(position.y)?.getOrNull(position.x)
+    }
+
+
 }
