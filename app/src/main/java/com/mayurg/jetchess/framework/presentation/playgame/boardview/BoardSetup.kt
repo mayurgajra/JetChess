@@ -1,11 +1,11 @@
 package com.mayurg.jetchess.framework.presentation.playgame.boardview
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.MaterialTheme
@@ -22,38 +22,70 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
 import com.mayurg.jetchess.framework.presentation.playgame.boardview.BoardColors.darkSquare
+import com.mayurg.jetchess.framework.presentation.playgame.boardview.BoardColors.lastMoveColor
 import com.mayurg.jetchess.framework.presentation.playgame.boardview.BoardColors.lightSquare
+import com.mayurg.jetchess.framework.presentation.playgame.gameview.Game
+import com.mayurg.jetchess.framework.presentation.playgame.gameview.Move
 import com.mayurg.jetchess.framework.presentation.playgame.pieceview.Piece
+import com.mayurg.jetchess.framework.presentation.playgame.pieceview.PieceColor
 import com.mayurg.jetchess.framework.presentation.playgame.pieceview.PiecePosition
 
 @Composable
-fun BoardMainContainer() {
-    Box {
-        val board = Board()
-        BoardBg()
+fun BoardMainContainer(
+    modifier: Modifier = Modifier,
+    game: Game,
+    selection: PiecePosition?,
+    moves: List<PiecePosition>,
+    didTap: (PiecePosition) -> Unit
+) {
+    Box(modifier) {
+        val board = game.board
+
+        val dangerPositions = listOf(
+            PieceColor.White,
+            PieceColor.Black
+        ).mapNotNull { if (game.kingIsInCheck(it)) game.kingPosition(it) else null }
+
+        BoardBg(game.historyMovesList.lastOrNull(), selection, dangerPositions, didTap)
         BoardPiecesSetup(
             pieces = board.allPieces,
             modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(1.0f)
         )
-        MovesOverlay(board, listOf())
+        MovesOverlay(board, moves)
     }
 }
 
 @Composable
-private fun BoardBg() {
+private fun BoardBg(
+    lastMove: Move?,
+    selection: PiecePosition?,
+    dangerPositions: List<PiecePosition>,
+    didTap: (PiecePosition) -> Unit
+) {
     Column {
         for (i in 0 until 8) {
             Row {
                 for (j in 0 until 8) {
+                    val position = PiecePosition(j, i)
                     val isLightSquare = i % 2 == j % 2
-                    val squareColor = if (isLightSquare) lightSquare else darkSquare
+                    val squareColor =
+                        if (lastMove?.contains(position) == true || position == selection) {
+                            lastMoveColor
+                        } else if (dangerPositions.contains(position)) {
+                            BoardColors.kingInCheckColor
+                        } else if (isLightSquare) lightSquare else darkSquare
+
                     Box(
                         modifier = Modifier
                             .weight(1f)
                             .aspectRatio(1f)
                             .background(squareColor)
+                            .clickable {
+                                didTap(position)
+                            }
+
                     ) {
                         if (i == 7) {
                             Text(
