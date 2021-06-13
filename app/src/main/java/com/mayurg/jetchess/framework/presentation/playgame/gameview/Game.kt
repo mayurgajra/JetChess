@@ -180,7 +180,7 @@ data class Game(val board: Board = Board(), val historyMovesList: List<Move> = l
         )
     }
 
-    fun movePieceAt(position: PiecePosition?): List<PiecePosition> {
+    fun movesForPieceAt(position: PiecePosition?): List<PiecePosition> {
         if (position == null) return emptyList()
         return board.allPositions.filter { canMove(position, it) }
     }
