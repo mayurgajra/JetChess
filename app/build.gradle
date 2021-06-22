@@ -47,8 +47,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerVersion Versions.kotlinPlugin
-        kotlinCompilerExtensionVersion "1.0.0-beta07"
+        kotlinCompilerExtensionVersion "1.0.0-beta09"
     }
 }
 
