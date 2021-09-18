@@ -7,10 +7,10 @@ import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.People
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -62,7 +62,7 @@ fun Friends(modifier: Modifier = Modifier, viewModel: MainViewModel) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Notification.", style = MaterialTheme.typography.h4)
+        Text(text = "Friends.", style = MaterialTheme.typography.h4)
     }
 }
 
@@ -74,6 +74,6 @@ fun Profile(modifier: Modifier = Modifier, viewModel: MainViewModel) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "MyNetwork.", style = MaterialTheme.typography.h4)
+        Text(text = "Profile.", style = MaterialTheme.typography.h4)
     }
 }

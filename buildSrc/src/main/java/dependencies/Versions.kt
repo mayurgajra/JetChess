@@ -11,10 +11,10 @@ object Versions {
     const val material = "1.3.0"
 
     //compose
-    const val composeCore = "1.0.0-beta09"
-    const val composeActivity = "1.3.0-beta02"
-    const val composeConstraint = "1.0.0-alpha07"
-    const val composeNavigation = "2.4.0-alpha03"
+    const val composeCore = "1.0.2"
+    const val composeActivity = "1.3.1"
+    const val composeConstraint = "1.0.0-beta02"
+    const val composeNavigation = "2.4.0-alpha09"
 
     //hilt
     const val hilt = "2.37"

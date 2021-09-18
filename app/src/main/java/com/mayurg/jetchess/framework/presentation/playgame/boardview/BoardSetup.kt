@@ -48,10 +48,10 @@ fun BoardMainContainer(
 
         BoardBg(game.historyMovesList.lastOrNull(), selection, dangerPositions, didTap)
         BoardPiecesSetup(
-            pieces = board.allPieces,
             modifier = Modifier
                 .fillMaxWidth()
-                .aspectRatio(1.0f)
+                .aspectRatio(1.0f),
+            pieces = board.allPieces
         )
         MovesOverlay(board, moves)
     }
@@ -65,11 +65,11 @@ private fun BoardBg(
     didTap: (PiecePosition) -> Unit
 ) {
     Column {
-        for (i in 0 until 8) {
+        for (y in 0 until 8) {
             Row {
-                for (j in 0 until 8) {
-                    val position = PiecePosition(j, i)
-                    val isLightSquare = i % 2 == j % 2
+                for (x in 0 until 8) {
+                    val position = PiecePosition(x, y)
+                    val isLightSquare = y % 2 == x % 2
                     val squareColor =
                         if (lastMove?.contains(position) == true || position == selection) {
                             lastMoveColor
@@ -87,17 +87,17 @@ private fun BoardBg(
                             }
 
                     ) {
-                        if (i == 7) {
+                        if (y == 7) {
                             Text(
-                                text = "${'a' + j}",
+                                text = "${'a' + x}",
                                 modifier = Modifier.align(Alignment.BottomEnd),
                                 style = MaterialTheme.typography.caption,
                                 color = Color.Black.copy(0.5f)
                             )
                         }
-                        if (j == 0) {
+                        if (x == 0) {
                             Text(
-                                text = "${8 - i}",
+                                text = "${8 - y}",
                                 modifier = Modifier.align(Alignment.TopStart),
                                 style = MaterialTheme.typography.caption,
                                 color = Color.Black.copy(0.5f)
@@ -135,10 +135,10 @@ fun PieceView(piece: Piece, modifier: Modifier = Modifier) {
 @Composable
 fun MovesOverlay(board: Board, movesList: List<PiecePosition>) {
     Column {
-        for (i in 0 until 8) {
+        for (y in 0 until 8) {
             Row {
-                for (j in 0 until 8) {
-                    val position = PiecePosition(j, i)
+                for (x in 0 until 8) {
+                    val position = PiecePosition(x, y)
                     Box(
                         modifier = Modifier
                             .weight(1f)
@@ -168,17 +168,7 @@ fun MovesOverlay(board: Board, movesList: List<PiecePosition>) {
     }
 }
 
-val INITIAL_BOARD = listOf(
-    listOf("BR0", "BN1", "BB2", "BQ3", "BK4", "BB5", "BN6", "BR7").map { Piece.pieceFromId(it) },
-    listOf("BP0", "BP1", "BP2", "BP3", "BP4", "BP5", "BP6", "BP7").map { Piece.pieceFromId(it) },
-    listOf(null, null, null, null, null, null, null, null),
-    listOf(null, null, null, null, null, null, null, null),
-    listOf(null, null, null, null, null, null, null, null),
-    listOf(null, null, null, null, null, null, null, null),
-    listOf("WP0", "WP1", "WP2", "WP3", "WP4", "WP5", "WP6", "WP7").map { Piece.pieceFromId(it) },
-    listOf("WR0", "WN1", "WB2", "WQ3", "WK4", "WB5", "WN6", "WR7").map { Piece.pieceFromId(it) }
-)
-val STARTING_PIECES = INITIAL_BOARD.flatten().filterNotNull()
+
 
 fun constrainsForGivenPieces(pieces: List<Pair<PiecePosition, Piece>>): ConstraintSet {
     return ConstraintSet {

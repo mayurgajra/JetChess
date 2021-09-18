@@ -1,14 +1,35 @@
 package com.mayurg.jetchess.framework.presentation.playgame.boardview
 
+import com.mayurg.jetchess.framework.presentation.playgame.gameview.Move
 import com.mayurg.jetchess.framework.presentation.playgame.pieceview.Piece
-import com.mayurg.jetchess.framework.presentation.playgame.pieceview.PieceDelta
 import com.mayurg.jetchess.framework.presentation.playgame.pieceview.PiecePosition
 import com.mayurg.jetchess.framework.presentation.playgame.pieceview.PieceType
+
+val INITIAL_BOARD = listOf(
+    listOf("BR0", "BN1", "BB2", "BQ3", "BK4", "BB5", "BN6", "BR7").map { Piece.pieceFromId(it) },
+    listOf("BP0", "BP1", "BP2", "BP3", "BP4", "BP5", "BP6", "BP7").map { Piece.pieceFromId(it) },
+    listOf(null, null, null, null, null, null, null, null),
+    listOf(null, null, null, null, null, null, null, null),
+    listOf(null, null, null, null, null, null, null, null),
+    listOf(null, null, null, null, null, null, null, null),
+    listOf("WP0", "WP1", "WP2", "WP3", "WP4", "WP5", "WP6", "WP7").map { Piece.pieceFromId(it) },
+    listOf("WR0", "WN1", "WB2", "WQ3", "WK4", "WB5", "WN6", "WR7").map { Piece.pieceFromId(it) }
+)
+val STARTING_PIECES = INITIAL_BOARD.flatten().filterNotNull()
 
 data class Board(val pieces: List<List<Piece?>> = INITIAL_BOARD) {
     companion object {
         private val ALL_POSITIONS = (0 until 8).flatMap { y ->
             (0 until 8).map { x -> PiecePosition(x, y) }
+        }
+
+        fun fromHistory(history: List<Move>): Board {
+            var board = Board()
+            history.forEach {
+                board = board.movePiece(it.fromPosition, it.toPosition)
+            }
+
+            return board
         }
 
     }
@@ -30,7 +51,7 @@ data class Board(val pieces: List<List<Piece?>> = INITIAL_BOARD) {
         val newPieces = pieces.map { it.toMutableList() }.toMutableList()
 
         newPieces[to.y][to.x] = piece
-        newPieces[from.y][from.y] = null
+        newPieces[from.y][from.x] = null
 
         return Board(newPieces.map { it.toList() }.toList())
     }
@@ -48,28 +69,14 @@ data class Board(val pieces: List<List<Piece?>> = INITIAL_BOARD) {
     }
 
     fun removePiece(at: PiecePosition): Board {
+        val oldPiece = pieceAt(at) ?: return this
         val newPieces = pieces.map { it.toMutableList() }.toMutableList()
         newPieces[at.y][at.x] = null
 
         return Board(newPieces.map { it.toList() }.toList())
     }
 
-    fun piecesExistBetweenPositions(between: PiecePosition, and: PiecePosition): Boolean {
-        val step = PieceDelta(
-            x = if (between.x > and.x) -1 else if (between.x < and.x) 1 else 0,
-            y = if (between.y > and.y) -1 else if (between.y < and.y) 1 else 0
-        )
 
-        var position = between
-        position += step
-        while (position != and) {
-            if (pieceAt(position) != null) {
-                return true
-            }
-            position += step
-        }
-        return false
-    }
 
 
 }

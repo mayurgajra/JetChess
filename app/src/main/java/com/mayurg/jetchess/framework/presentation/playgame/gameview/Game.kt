@@ -19,6 +19,17 @@ data class Game(val board: Board = Board(), val historyMovesList: List<Move> = l
             return if (canMove) GameState.IDLE else GameState.STALEMATE
         }
 
+    val displayGameState: String
+        get() {
+            val turnString = if (turn == PieceColor.White) "White's Turn" else "Black's Turn"
+            return when(gameState) {
+                GameState.IDLE -> turnString
+                GameState.CHECK -> "Check - $turnString"
+                GameState.CHECKMATE -> "Checkmate - " + if (turn == PieceColor.White) "Black Wins" else "White Wins"
+                GameState.STALEMATE -> "Draw - Stalemate"
+            }
+        }
+
     val turn: PieceColor
         get() = historyMovesList.lastOrNull()
             ?.let { board.pieceAt(it.toPosition)?.pieceColor?.other() } ?: PieceColor.White
@@ -288,4 +299,21 @@ data class Game(val board: Board = Board(), val historyMovesList: List<Move> = l
         val capturedPieces = startingPieces - currentPieces
         return capturedPieces.map { Piece.pieceFromId(it) }
     }
+}
+
+fun Board.piecesExistBetweenPositions(between: PiecePosition, and: PiecePosition): Boolean {
+    val step = PieceDelta(
+        x = if (between.x > and.x) -1 else if (between.x < and.x) 1 else 0,
+        y = if (between.y > and.y) -1 else if (between.y < and.y) 1 else 0
+    )
+
+    var position = between
+    position += step
+    while (position != and) {
+        if (pieceAt(position) != null) {
+            return true
+        }
+        position += step
+    }
+    return false
 }
