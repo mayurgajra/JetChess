@@ -7,6 +7,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddAlert
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.People
 import androidx.compose.material.icons.filled.Person
@@ -26,14 +27,16 @@ sealed class Screens(val route: String, val title: String) {
         title
     ) {
         object Home : MainScreens("home", "Home", Icons.Filled.Home)
-        object Friends : MainScreens("friends", "Notification", Icons.Filled.People)
+        object Users : MainScreens("users", "Users", Icons.Filled.People)
+        object Challenges : MainScreens("challenges", "Challenges", Icons.Filled.AddAlert)
         object Profile : MainScreens("profile", "Profile", Icons.Filled.Person)
     }
 }
 
 val screensInHomeFromBottomNav = listOf(
     Screens.MainScreens.Home,
-    Screens.MainScreens.Friends,
+    Screens.MainScreens.Users,
+    Screens.MainScreens.Challenges,
     Screens.MainScreens.Profile
 )
 
@@ -55,14 +58,26 @@ fun Home(modifier: Modifier = Modifier, viewModel: MainViewModel, onClick: () ->
 }
 
 @Composable
-fun Friends(modifier: Modifier = Modifier, viewModel: MainViewModel) {
-    viewModel.setCurrentScreen(Screens.MainScreens.Friends)
+fun Users(modifier: Modifier = Modifier, viewModel: MainViewModel) {
+    viewModel.setCurrentScreen(Screens.MainScreens.Challenges)
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Friends.", style = MaterialTheme.typography.h4)
+        Text(text = "Users.", style = MaterialTheme.typography.h4)
+    }
+}
+
+@Composable
+fun Challenges(modifier: Modifier = Modifier, viewModel: MainViewModel) {
+    viewModel.setCurrentScreen(Screens.MainScreens.Challenges)
+    Column(
+        modifier = modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = "Challenges.", style = MaterialTheme.typography.h4)
     }
 }
 

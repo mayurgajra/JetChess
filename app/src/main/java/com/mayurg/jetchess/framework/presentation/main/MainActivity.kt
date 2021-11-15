@@ -22,8 +22,6 @@ import androidx.navigation.compose.rememberNavController
 import com.mayurg.jetchess.framework.presentation.base.BaseActivity
 import com.mayurg.jetchess.framework.presentation.playgame.PlayGameActivity
 import com.mayurg.jetchess.framework.presentation.utils.themeutils.AppTheme
-import com.mayurg.jetchess.framework.presentation.utils.themeutils.background
-import com.mayurg.jetchess.framework.presentation.utils.themeutils.primaryColor
 
 @ExperimentalFoundationApi
 class MainActivity : BaseActivity() {
@@ -77,7 +75,8 @@ class MainActivity : BaseActivity() {
                     moveToGame()
                 })
             }
-            composable(Screens.MainScreens.Friends.route) { Friends(viewModel = viewModel) }
+            composable(Screens.MainScreens.Users.route) { Users(viewModel = viewModel) }
+            composable(Screens.MainScreens.Challenges.route) { Challenges(viewModel = viewModel) }
             composable(Screens.MainScreens.Profile.route) { Profile(viewModel = viewModel) }
         }
     }

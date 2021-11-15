@@ -35,14 +35,13 @@ import com.mayurg.jetchess.R
 import com.mayurg.jetchess.business.domain.state.StateMessageCallback
 import com.mayurg.jetchess.framework.presentation.base.BaseActivity
 import com.mayurg.jetchess.framework.presentation.login.state.LoginStateEvent
-import com.mayurg.jetchess.framework.presentation.login.state.LoginUserViewState
 import com.mayurg.jetchess.framework.presentation.main.MainActivity
 import com.mayurg.jetchess.framework.presentation.register.RegisterActivity
-import com.mayurg.jetchess.util.TextFieldState
 import com.mayurg.jetchess.framework.presentation.utils.reusableviews.LoginRegisterButton
 import com.mayurg.jetchess.framework.presentation.utils.reusableviews.LoginRegisterTextField
 import com.mayurg.jetchess.framework.presentation.utils.reusableviews.PartiallyHighLightedClickableText
 import com.mayurg.jetchess.framework.presentation.utils.themeutils.AppTheme
+import com.mayurg.jetchess.util.TextFieldState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -175,7 +174,7 @@ class LoginActivity : BaseActivity() {
 
     private fun moveToMain() {
         val intent = Intent(this, MainActivity::class.java)
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
         startActivity(intent)
         finishAffinity()
     }
@@ -225,16 +224,12 @@ class LoginActivity : BaseActivity() {
         }
     }
 
-    fun subscribeObservers() {
+    private fun subscribeObservers() {
         viewModel.viewState.observe(this) {
             it?.baseResponseModel?.let { model ->
                 Toast.makeText(this, model.message, Toast.LENGTH_SHORT).show()
                 moveToMain()
             }
-        }
-
-        viewModel.shouldDisplayProgressBar.observe(this) {
-            Toast.makeText(this, it.toString(), Toast.LENGTH_SHORT).show()
         }
 
         viewModel.stateMessage.observe(this) { stateMessage ->
