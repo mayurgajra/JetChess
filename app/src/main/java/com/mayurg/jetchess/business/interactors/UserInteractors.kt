@@ -7,4 +7,5 @@ import javax.inject.Inject
 class UserInteractors @Inject constructor(
     val registerUser: RegisterUser,
     val loginUser: LoginUser,
+    val usersList: UsersList
 )

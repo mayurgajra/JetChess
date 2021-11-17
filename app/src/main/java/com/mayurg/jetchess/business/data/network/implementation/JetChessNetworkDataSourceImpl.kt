@@ -4,9 +4,8 @@ import com.mayurg.jetchess.business.data.network.abstraction.JetChessNetworkData
 import com.mayurg.jetchess.business.domain.model.LoginUserModel
 import com.mayurg.jetchess.business.domain.model.RegisterUserModel
 import com.mayurg.jetchess.framework.datasource.network.abstraction.JetChessNetworkService
-import com.mayurg.jetchess.framework.datasource.network.mappers.LoginNetworkMapper
-import com.mayurg.jetchess.framework.datasource.network.mappers.RegisterNetworkMapper
 import com.mayurg.jetchess.framework.datasource.network.model.BaseResponseModel
+import com.mayurg.jetchess.framework.datasource.network.model.UserDTO
 import javax.inject.Inject
 
 class JetChessNetworkDataSourceImpl @Inject constructor(
@@ -19,6 +18,10 @@ class JetChessNetworkDataSourceImpl @Inject constructor(
 
     override suspend fun loginUser(loginUserModel: LoginUserModel): BaseResponseModel {
         return jetChessNetworkService.loginUser(loginUserModel)
+    }
+
+    override suspend fun getUsers(): List<UserDTO> {
+        return jetChessNetworkService.getUsers()
     }
 
 

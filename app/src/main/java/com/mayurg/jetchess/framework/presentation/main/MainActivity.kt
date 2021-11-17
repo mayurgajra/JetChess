@@ -21,9 +21,12 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.mayurg.jetchess.framework.presentation.base.BaseActivity
 import com.mayurg.jetchess.framework.presentation.playgame.PlayGameActivity
+import com.mayurg.jetchess.framework.presentation.users.Users
 import com.mayurg.jetchess.framework.presentation.utils.themeutils.AppTheme
+import dagger.hilt.android.AndroidEntryPoint
 
 @ExperimentalFoundationApi
+@AndroidEntryPoint
 class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,7 +78,7 @@ class MainActivity : BaseActivity() {
                     moveToGame()
                 })
             }
-            composable(Screens.MainScreens.Users.route) { Users(viewModel = viewModel) }
+            composable(Screens.MainScreens.Users.route) { Users(mainViewModel = viewModel) }
             composable(Screens.MainScreens.Challenges.route) { Challenges(viewModel = viewModel) }
             composable(Screens.MainScreens.Profile.route) { Profile(viewModel = viewModel) }
         }
