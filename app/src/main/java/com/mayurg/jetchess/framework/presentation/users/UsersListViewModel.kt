@@ -16,7 +16,7 @@ import javax.inject.Inject
  * Created On 17/11/2021
  * @author Mayur Gajra
  */
-@ExperimentalCoroutinesApi
+@OptIn(ExperimentalCoroutinesApi::class)
 @FlowPreview
 @HiltViewModel
 class UsersListViewModel @Inject constructor(

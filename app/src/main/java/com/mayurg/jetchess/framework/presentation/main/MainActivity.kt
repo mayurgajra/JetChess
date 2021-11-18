@@ -22,9 +22,12 @@ import androidx.navigation.compose.rememberNavController
 import com.mayurg.jetchess.framework.presentation.base.BaseActivity
 import com.mayurg.jetchess.framework.presentation.playgame.PlayGameActivity
 import com.mayurg.jetchess.framework.presentation.users.Users
+import com.mayurg.jetchess.framework.presentation.users.UsersListViewModel
 import com.mayurg.jetchess.framework.presentation.utils.themeutils.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.FlowPreview
 
+@FlowPreview
 @ExperimentalFoundationApi
 @AndroidEntryPoint
 class MainActivity : BaseActivity() {
@@ -42,6 +45,7 @@ class MainActivity : BaseActivity() {
     @Composable
     fun AppScaffold() {
         val viewModel: MainViewModel = viewModel()
+        val usersListViewModel: UsersListViewModel = viewModel()
         val navController = rememberNavController()
         val scaffoldState = rememberScaffoldState()
         val scope = rememberCoroutineScope()
@@ -63,12 +67,20 @@ class MainActivity : BaseActivity() {
             scaffoldState = scaffoldState,
             drawerGesturesEnabled = scaffoldState.drawerState.isOpen,
         ) { innerPadding ->
-            NavigationHost(navController = navController, viewModel = viewModel)
+            NavigationHost(
+                navController = navController,
+                viewModel = viewModel,
+                usersListViewModel = usersListViewModel
+            )
         }
     }
 
     @Composable
-    fun NavigationHost(navController: NavController, viewModel: MainViewModel) {
+    fun NavigationHost(
+        navController: NavController,
+        viewModel: MainViewModel,
+        usersListViewModel: UsersListViewModel
+    ) {
         NavHost(
             navController = navController as NavHostController,
             startDestination = Screens.MainScreens.Home.route
@@ -78,7 +90,12 @@ class MainActivity : BaseActivity() {
                     moveToGame()
                 })
             }
-            composable(Screens.MainScreens.Users.route) { Users(mainViewModel = viewModel) }
+            composable(Screens.MainScreens.Users.route) {
+                Users(
+                    mainViewModel = viewModel,
+                    usersListViewModel = usersListViewModel
+                )
+            }
             composable(Screens.MainScreens.Challenges.route) { Challenges(viewModel = viewModel) }
             composable(Screens.MainScreens.Profile.route) { Profile(viewModel = viewModel) }
         }
