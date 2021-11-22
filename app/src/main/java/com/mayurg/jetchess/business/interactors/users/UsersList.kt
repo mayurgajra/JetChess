@@ -1,4 +1,4 @@
-package com.mayurg.jetchess.business.interactors
+package com.mayurg.jetchess.business.interactors.users
 
 import com.mayurg.jetchess.business.data.network.ApiResponseHandler
 import com.mayurg.jetchess.business.data.network.abstraction.JetChessNetworkDataSource

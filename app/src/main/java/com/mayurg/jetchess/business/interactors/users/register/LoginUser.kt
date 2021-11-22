@@ -1,4 +1,4 @@
-package com.mayurg.jetchess.business.interactors.register
+package com.mayurg.jetchess.business.interactors.users.register
 
 import com.mayurg.jetchess.business.data.network.ApiResponseHandler
 import com.mayurg.jetchess.business.data.network.abstraction.JetChessNetworkDataSource
@@ -7,7 +7,6 @@ import com.mayurg.jetchess.business.domain.model.LoginUserFactory
 import com.mayurg.jetchess.business.domain.state.DataState
 import com.mayurg.jetchess.business.domain.state.StateEvent
 import com.mayurg.jetchess.framework.datasource.network.model.BaseResponseModel
-import com.mayurg.jetchess.framework.presentation.login.state.LoginStateEvent
 import com.mayurg.jetchess.framework.presentation.login.state.LoginUserViewState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

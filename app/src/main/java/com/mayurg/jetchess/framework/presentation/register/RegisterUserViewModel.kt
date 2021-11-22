@@ -2,7 +2,7 @@ package com.mayurg.jetchess.framework.presentation.register
 
 import com.mayurg.jetchess.business.domain.state.DataState
 import com.mayurg.jetchess.business.domain.state.StateEvent
-import com.mayurg.jetchess.business.interactors.UserInteractors
+import com.mayurg.jetchess.business.interactors.users.UserInteractors
 import com.mayurg.jetchess.framework.presentation.base.BaseViewModel
 import com.mayurg.jetchess.framework.presentation.register.state.RegisterStateEvent
 import com.mayurg.jetchess.framework.presentation.register.state.RegisterUserViewState

@@ -5,6 +5,7 @@ import com.mayurg.jetchess.business.domain.model.LoginUserModel
 import com.mayurg.jetchess.business.domain.model.RegisterUserModel
 import com.mayurg.jetchess.framework.datasource.network.abstraction.JetChessNetworkService
 import com.mayurg.jetchess.framework.datasource.network.model.BaseResponseModel
+import com.mayurg.jetchess.framework.datasource.network.model.ChallengeDTO
 import com.mayurg.jetchess.framework.datasource.network.model.UserDTO
 import javax.inject.Inject
 
@@ -22,6 +23,10 @@ class JetChessNetworkDataSourceImpl @Inject constructor(
 
     override suspend fun getUsers(): List<UserDTO> {
         return jetChessNetworkService.getUsers()
+    }
+
+    override suspend fun getChallenges(userId: String): List<ChallengeDTO> {
+        return jetChessNetworkService.getChallenges(userId)
     }
 
 

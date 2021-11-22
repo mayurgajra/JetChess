@@ -6,6 +6,7 @@ import com.mayurg.jetchess.framework.datasource.network.abstraction.JetChessNetw
 import com.mayurg.jetchess.framework.datasource.network.mappers.LoginNetworkMapper
 import com.mayurg.jetchess.framework.datasource.network.mappers.RegisterNetworkMapper
 import com.mayurg.jetchess.framework.datasource.network.model.BaseResponseModel
+import com.mayurg.jetchess.framework.datasource.network.model.ChallengeDTO
 import com.mayurg.jetchess.framework.datasource.network.model.UserDTO
 import com.mayurg.jetchess.framework.datasource.network.retrofit.JetChessApiService
 
@@ -27,6 +28,10 @@ class JetChessNetworkServiceImpl(
 
     override suspend fun getUsers(): List<UserDTO> {
         return jetChessApiService.getUsers()
+    }
+
+    override suspend fun getChallenges(userId: String): List<ChallengeDTO> {
+        return jetChessApiService.getChallenges(userId)
     }
 
 

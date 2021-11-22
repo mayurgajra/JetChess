@@ -59,17 +59,7 @@ fun Home(modifier: Modifier = Modifier, viewModel: MainViewModel, onClick: () ->
 
 
 
-@Composable
-fun Challenges(modifier: Modifier = Modifier, viewModel: MainViewModel) {
-    viewModel.setCurrentScreen(Screens.MainScreens.Challenges)
-    Column(
-        modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(text = "Challenges.", style = MaterialTheme.typography.h4)
-    }
-}
+
 
 @Composable
 fun Profile(modifier: Modifier = Modifier, viewModel: MainViewModel) {

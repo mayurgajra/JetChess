@@ -1,12 +1,10 @@
 package com.mayurg.jetchess.framework.datasource.network.retrofit
 
-import com.mayurg.jetchess.framework.datasource.network.model.BaseResponseModel
-import com.mayurg.jetchess.framework.datasource.network.model.LoginUserDTO
-import com.mayurg.jetchess.framework.datasource.network.model.RegisterUserDTO
-import com.mayurg.jetchess.framework.datasource.network.model.UserDTO
+import com.mayurg.jetchess.framework.datasource.network.model.*
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface JetChessApiService {
 
@@ -18,4 +16,7 @@ interface JetChessApiService {
 
     @GET("getUsers")
     suspend fun getUsers(): List<UserDTO>
+
+    @GET("getChallenges")
+    suspend fun getChallenges(@Query("userId") userId: String): List<ChallengeDTO>
 }

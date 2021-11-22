@@ -1,11 +1,11 @@
-package com.mayurg.jetchess.framework.presentation.users
+package com.mayurg.jetchess.framework.presentation.challenges
 
 import com.mayurg.jetchess.business.domain.state.DataState
 import com.mayurg.jetchess.business.domain.state.StateEvent
-import com.mayurg.jetchess.business.interactors.users.UserInteractors
+import com.mayurg.jetchess.business.interactors.challenges.ChallengesInteractors
 import com.mayurg.jetchess.framework.presentation.base.BaseViewModel
-import com.mayurg.jetchess.framework.presentation.users.state.UserListViewState
-import com.mayurg.jetchess.framework.presentation.users.state.UsersListStateEvent
+import com.mayurg.jetchess.framework.presentation.challenges.state.ChallengesListStateEvent
+import com.mayurg.jetchess.framework.presentation.challenges.state.ChallengesListViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -13,18 +13,18 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 /**
- * Created On 17/11/2021
+ * Created On 22/11/2021
  * @author Mayur Gajra
  */
 @OptIn(ExperimentalCoroutinesApi::class)
 @FlowPreview
 @HiltViewModel
-class UsersListViewModel @Inject constructor(
-    private val userInteractors: UserInteractors
-) : BaseViewModel<UserListViewState>() {
+class ChallengesListViewModel @Inject constructor(
+    private val challengesInteractors: ChallengesInteractors
+) : BaseViewModel<ChallengesListViewState>() {
 
 
-    override fun handleNewData(data: UserListViewState) {
+    override fun handleNewData(data: ChallengesListViewState) {
         data.let { viewState ->
             viewState.list?.let {
                 val state = getCurrentViewStateOrNew()
@@ -35,10 +35,10 @@ class UsersListViewModel @Inject constructor(
     }
 
     override fun setStateEvent(stateEvent: StateEvent) {
-        val job: Flow<DataState<UserListViewState>?> = when (stateEvent) {
+        val job: Flow<DataState<ChallengesListViewState>?> = when (stateEvent) {
 
-            is UsersListStateEvent.GetUsersEvent -> {
-                userInteractors.usersList.getUsers(stateEvent)
+            is ChallengesListStateEvent.GetChallengesStateEvent -> {
+                challengesInteractors.challengesList.getChallengesList(stateEvent)
             }
 
             else -> {
@@ -48,8 +48,9 @@ class UsersListViewModel @Inject constructor(
         launchJob(stateEvent, job)
     }
 
-    override fun initNewViewState(): UserListViewState {
-        return UserListViewState()
+    override fun initNewViewState(): ChallengesListViewState {
+        return ChallengesListViewState()
     }
+
 
 }

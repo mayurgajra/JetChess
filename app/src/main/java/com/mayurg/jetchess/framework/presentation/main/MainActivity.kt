@@ -20,6 +20,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.mayurg.jetchess.framework.presentation.base.BaseActivity
+import com.mayurg.jetchess.framework.presentation.challenges.Challenges
+import com.mayurg.jetchess.framework.presentation.challenges.ChallengesListViewModel
 import com.mayurg.jetchess.framework.presentation.playgame.PlayGameActivity
 import com.mayurg.jetchess.framework.presentation.users.Users
 import com.mayurg.jetchess.framework.presentation.users.UsersListViewModel
@@ -46,6 +48,7 @@ class MainActivity : BaseActivity() {
     fun AppScaffold() {
         val viewModel: MainViewModel = viewModel()
         val usersListViewModel: UsersListViewModel = viewModel()
+        val challengesListViewModel: ChallengesListViewModel = viewModel()
         val navController = rememberNavController()
         val scaffoldState = rememberScaffoldState()
         val scope = rememberCoroutineScope()
@@ -70,7 +73,8 @@ class MainActivity : BaseActivity() {
             NavigationHost(
                 navController = navController,
                 viewModel = viewModel,
-                usersListViewModel = usersListViewModel
+                usersListViewModel = usersListViewModel,
+                challengesListViewModel = challengesListViewModel
             )
         }
     }
@@ -79,7 +83,8 @@ class MainActivity : BaseActivity() {
     fun NavigationHost(
         navController: NavController,
         viewModel: MainViewModel,
-        usersListViewModel: UsersListViewModel
+        usersListViewModel: UsersListViewModel,
+        challengesListViewModel: ChallengesListViewModel
     ) {
         NavHost(
             navController = navController as NavHostController,
@@ -96,7 +101,12 @@ class MainActivity : BaseActivity() {
                     usersListViewModel = usersListViewModel
                 )
             }
-            composable(Screens.MainScreens.Challenges.route) { Challenges(viewModel = viewModel) }
+            composable(Screens.MainScreens.Challenges.route) {
+                Challenges(
+                    mainViewModel = viewModel,
+                    challengesListViewModel = challengesListViewModel
+                )
+            }
             composable(Screens.MainScreens.Profile.route) { Profile(viewModel = viewModel) }
         }
     }
