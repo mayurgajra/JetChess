@@ -3,11 +3,12 @@ package com.mayurg.jetchess.framework.presentation.challenges
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.mayurg.jetchess.framework.presentation.challenges.state.ChallengesListStateEvent
 import com.mayurg.jetchess.framework.presentation.main.MainViewModel
 import com.mayurg.jetchess.framework.presentation.main.Screens
@@ -35,6 +36,16 @@ fun Challenges(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Challenges.", style = MaterialTheme.typography.h4)
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 8.dp)
+        ) {
+            items(challengesListViewModel.viewState.value?.list?.size ?: 0) { pos ->
+                ChallengesListItem(
+                    challenge = challengesListViewModel.viewState.value?.list?.get(pos)!!
+                )
+            }
+        }
     }
 }

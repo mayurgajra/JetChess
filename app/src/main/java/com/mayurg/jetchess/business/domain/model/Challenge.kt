@@ -6,4 +6,5 @@ data class Challenge(
     val id: String,
     val fromId: String,
     val toId: String,
+    val fromUsername: String,
 ): Serializable

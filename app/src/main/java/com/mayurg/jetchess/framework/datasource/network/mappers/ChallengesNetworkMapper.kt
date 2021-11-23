@@ -14,7 +14,8 @@ class ChallengesNetworkMapper @Inject constructor() : EntityMapper<ChallengeDTO,
         return Challenge(
             id = entity.id,
             fromId = entity.fromId,
-            toId = entity.toId
+            toId = entity.toId,
+            fromUsername = entity.fromUsername
         )
     }
 
@@ -22,7 +23,8 @@ class ChallengesNetworkMapper @Inject constructor() : EntityMapper<ChallengeDTO,
         return ChallengeDTO(
             id = domainModel.id,
             fromId = domainModel.fromId,
-            toId = domainModel.toId
+            toId = domainModel.toId,
+            fromUsername = domainModel.fromUsername
         )
     }
 }
