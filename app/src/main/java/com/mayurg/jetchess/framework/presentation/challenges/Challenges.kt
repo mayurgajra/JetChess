@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mayurg.jetchess.framework.presentation.challenges.state.ChallengesListStateEvent
+import com.mayurg.jetchess.framework.presentation.challenges.state.ChallengesListStateEvent.AcceptRejectStateEvent
 import com.mayurg.jetchess.framework.presentation.main.MainViewModel
 import com.mayurg.jetchess.framework.presentation.main.Screens
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -43,7 +44,10 @@ fun Challenges(
         ) {
             items(challengesListViewModel.viewState.value?.list?.size ?: 0) { pos ->
                 ChallengesListItem(
-                    challenge = challengesListViewModel.viewState.value?.list?.get(pos)!!
+                    challenge = challengesListViewModel.viewState.value?.list?.get(pos)!!,
+                    onChallengeStatusChange = { id, status ->
+                        challengesListViewModel.setStateEvent(AcceptRejectStateEvent(id, status))
+                    }
                 )
             }
         }

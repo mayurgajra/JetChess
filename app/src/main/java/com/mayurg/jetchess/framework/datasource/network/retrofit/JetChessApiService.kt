@@ -1,5 +1,6 @@
 package com.mayurg.jetchess.framework.datasource.network.retrofit
 
+import com.mayurg.jetchess.business.domain.model.AcceptRejectChallengeRequest
 import com.mayurg.jetchess.framework.datasource.network.model.*
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -19,4 +20,7 @@ interface JetChessApiService {
 
     @GET("getChallenges")
     suspend fun getChallenges(@Query("userId") userId: String): List<ChallengeDTO>
+
+    @POST("acceptRejectChallenge")
+    suspend fun acceptRejectChallenge(@Body acceptRejectChallengeRequest: AcceptRejectChallengeRequest): BaseResponseModel
 }

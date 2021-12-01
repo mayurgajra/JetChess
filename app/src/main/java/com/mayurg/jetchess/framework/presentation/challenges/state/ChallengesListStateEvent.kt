@@ -21,4 +21,22 @@ sealed class ChallengesListStateEvent : StateEvent {
             return true
         }
     }
+
+    class AcceptRejectStateEvent(val id: String, val status: String) : ChallengesListStateEvent() {
+
+        override fun errorInfo(): String {
+            return "Error setting the challenge status $status"
+        }
+
+        override fun eventName(): String {
+            return "AcceptRejectStateEvent"
+        }
+
+        override fun shouldDisplayProgressBar(): Boolean {
+            return true
+        }
+
+    }
+
+
 }

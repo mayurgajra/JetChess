@@ -2,14 +2,14 @@ package com.mayurg.jetchess.business.data.network
 
 import com.mayurg.jetchess.business.domain.state.*
 
-abstract class ApiResponseHandler <ViewState, Data>(
+abstract class ApiResponseHandler<ViewState, Data>(
     private val response: ApiResult<Data?>,
     private val stateEvent: StateEvent?
-){
+) {
 
     suspend fun getResult(): DataState<ViewState>? {
 
-        return when(response){
+        return when (response) {
 
             is ApiResult.GenericError -> {
                 DataState.error(
@@ -34,7 +34,7 @@ abstract class ApiResponseHandler <ViewState, Data>(
             }
 
             is ApiResult.Success -> {
-                if(response.value == null){
+                if (response.value == null) {
                     DataState.error(
                         response = Response(
                             message = NetworkErrors.NETWORK_DATA_NULL,
@@ -43,8 +43,7 @@ abstract class ApiResponseHandler <ViewState, Data>(
                         ),
                         stateEvent = stateEvent
                     )
-                }
-                else{
+                } else {
                     handleSuccess(resultObj = response.value)
                 }
             }

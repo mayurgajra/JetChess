@@ -19,7 +19,10 @@ import com.mayurg.jetchess.business.domain.model.Challenge
  */
 
 @Composable
-fun ChallengesListItem(challenge: Challenge) {
+fun ChallengesListItem(
+    challenge: Challenge,
+    onChallengeStatusChange: (id: String, status: String) -> Unit,
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth(),
@@ -52,7 +55,9 @@ fun ChallengesListItem(challenge: Challenge) {
                     colors = ButtonDefaults.buttonColors(
                         backgroundColor = MaterialTheme.colors.error,
                     ),
-                    onClick = { }
+                    onClick = {
+                        onChallengeStatusChange(challenge.id, "rejected")
+                    }
                 ) {
                     Icon(imageVector = Icons.Filled.Delete, contentDescription = "Reject icon")
                 }
@@ -66,7 +71,9 @@ fun ChallengesListItem(challenge: Challenge) {
                     colors = ButtonDefaults.buttonColors(
                         backgroundColor = MaterialTheme.colors.secondary,
                     ),
-                    onClick = { }
+                    onClick = {
+                        onChallengeStatusChange(challenge.id, "accepted")
+                    }
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Check,

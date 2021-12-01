@@ -1,5 +1,6 @@
 package com.mayurg.jetchess.framework.datasource.network.implementation
 
+import com.mayurg.jetchess.business.domain.model.AcceptRejectChallengeRequest
 import com.mayurg.jetchess.business.domain.model.LoginUserModel
 import com.mayurg.jetchess.business.domain.model.RegisterUserModel
 import com.mayurg.jetchess.framework.datasource.network.abstraction.JetChessNetworkService
@@ -32,6 +33,10 @@ class JetChessNetworkServiceImpl(
 
     override suspend fun getChallenges(userId: String): List<ChallengeDTO> {
         return jetChessApiService.getChallenges(userId)
+    }
+
+    override suspend fun acceptRejectChallenge(id: String, status: String): BaseResponseModel {
+        return jetChessApiService.acceptRejectChallenge(AcceptRejectChallengeRequest(id, status))
     }
 
 

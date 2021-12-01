@@ -29,5 +29,9 @@ class JetChessNetworkDataSourceImpl @Inject constructor(
         return jetChessNetworkService.getChallenges(userId)
     }
 
+    override suspend fun acceptRejectChallenge(id: String, status: String): BaseResponseModel {
+        return jetChessNetworkService.acceptRejectChallenge(id, status)
+    }
+
 
 }

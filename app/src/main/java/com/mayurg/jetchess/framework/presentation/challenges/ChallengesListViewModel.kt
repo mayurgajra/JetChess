@@ -41,6 +41,10 @@ class ChallengesListViewModel @Inject constructor(
                 challengesInteractors.challengesList.getChallengesList(stateEvent)
             }
 
+            is ChallengesListStateEvent.AcceptRejectStateEvent -> {
+                challengesInteractors.acceptRejectChallenge.acceptRejectChallenge(stateEvent)
+            }
+
             else -> {
                 emitInvalidStateEvent(stateEvent)
             }

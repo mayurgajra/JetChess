@@ -7,7 +7,8 @@ import javax.inject.Inject
  * @author Mayur Gajra
  */
 class ChallengesInteractors @Inject constructor(
-    val challengesList: ChallengesList
+    val challengesList: ChallengesList,
+    val acceptRejectChallenge: AcceptRejectChallenge
 ) {
 
 }
