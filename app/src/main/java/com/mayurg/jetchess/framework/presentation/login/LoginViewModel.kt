@@ -21,9 +21,15 @@ class LoginViewModel @Inject constructor(
 
     override fun handleNewData(data: LoginUserViewState) {
         data.let { viewState ->
-            viewState.baseResponseModel?.let {
+            viewState.loginResponseModel?.let {
                 val state = getCurrentViewStateOrNew()
-                state.baseResponseModel = it
+                state.loginResponseModel = it
+                setViewState(state)
+            }
+
+            viewState.userDataSaved?.let {
+                val state = getCurrentViewStateOrNew()
+                state.userDataSaved = it
                 setViewState(state)
             }
         }
@@ -38,6 +44,10 @@ class LoginViewModel @Inject constructor(
                     password = stateEvent.password,
                     stateEvent = stateEvent
                 )
+            }
+
+            is LoginStateEvent.SaveUserData -> {
+                userInteractors.saveUserInfo.saveUserInfo(stateEvent.user)
             }
 
             else -> {

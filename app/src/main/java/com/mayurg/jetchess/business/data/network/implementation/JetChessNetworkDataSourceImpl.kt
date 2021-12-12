@@ -6,6 +6,7 @@ import com.mayurg.jetchess.business.domain.model.RegisterUserModel
 import com.mayurg.jetchess.framework.datasource.network.abstraction.JetChessNetworkService
 import com.mayurg.jetchess.framework.datasource.network.model.BaseResponseModel
 import com.mayurg.jetchess.framework.datasource.network.model.ChallengeDTO
+import com.mayurg.jetchess.framework.datasource.network.model.LoginResponseModel
 import com.mayurg.jetchess.framework.datasource.network.model.UserDTO
 import javax.inject.Inject
 
@@ -17,7 +18,7 @@ class JetChessNetworkDataSourceImpl @Inject constructor(
         return jetChessNetworkService.registerUser(registerUserModel)
     }
 
-    override suspend fun loginUser(loginUserModel: LoginUserModel): BaseResponseModel {
+    override suspend fun loginUser(loginUserModel: LoginUserModel): LoginResponseModel {
         return jetChessNetworkService.loginUser(loginUserModel)
     }
 

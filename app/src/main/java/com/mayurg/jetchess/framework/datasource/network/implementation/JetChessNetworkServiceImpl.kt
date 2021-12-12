@@ -8,6 +8,7 @@ import com.mayurg.jetchess.framework.datasource.network.mappers.LoginNetworkMapp
 import com.mayurg.jetchess.framework.datasource.network.mappers.RegisterNetworkMapper
 import com.mayurg.jetchess.framework.datasource.network.model.BaseResponseModel
 import com.mayurg.jetchess.framework.datasource.network.model.ChallengeDTO
+import com.mayurg.jetchess.framework.datasource.network.model.LoginResponseModel
 import com.mayurg.jetchess.framework.datasource.network.model.UserDTO
 import com.mayurg.jetchess.framework.datasource.network.retrofit.JetChessApiService
 
@@ -22,7 +23,7 @@ class JetChessNetworkServiceImpl(
         return jetChessApiService.registerUser(entity)
     }
 
-    override suspend fun loginUser(loginUserModel: LoginUserModel): BaseResponseModel {
+    override suspend fun loginUser(loginUserModel: LoginUserModel): LoginResponseModel {
         val entity = loginNetworkMapper.mapToEntity(loginUserModel)
         return jetChessApiService.loginUser(entity)
     }

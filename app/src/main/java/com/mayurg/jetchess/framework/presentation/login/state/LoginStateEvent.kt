@@ -1,5 +1,6 @@
 package com.mayurg.jetchess.framework.presentation.login.state
 
+import com.mayurg.jetchess.business.domain.model.User
 import com.mayurg.jetchess.business.domain.state.StateEvent
 
 sealed class LoginStateEvent : StateEvent {
@@ -13,9 +14,23 @@ sealed class LoginStateEvent : StateEvent {
         }
 
         override fun eventName(): String {
-            return "RegisterUser"
+            return "LoginUser"
         }
 
         override fun shouldDisplayProgressBar() = true
+    }
+
+    class SaveUserData(
+        val user: User
+    ) : LoginStateEvent() {
+        override fun errorInfo(): String {
+            return "Error saving user info"
+        }
+
+        override fun eventName(): String {
+            return "SaveUserData"
+        }
+
+        override fun shouldDisplayProgressBar() = false
     }
 }

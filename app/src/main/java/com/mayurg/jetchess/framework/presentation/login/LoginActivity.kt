@@ -225,9 +225,19 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun subscribeObservers() {
-        viewModel.viewState.observe(this) {
-            it?.baseResponseModel?.let { model ->
+        viewModel.viewState.observe(this) { loginUserViewState ->
+            loginUserViewState?.loginResponseModel?.let { model ->
                 Toast.makeText(this, model.message, Toast.LENGTH_SHORT).show()
+                model.user?.let { user ->
+                    viewModel.setStateEvent(
+                        LoginStateEvent.SaveUserData(
+                            user
+                        )
+                    )
+                }
+            }
+
+            loginUserViewState?.userDataSaved?.let {
                 moveToMain()
             }
         }

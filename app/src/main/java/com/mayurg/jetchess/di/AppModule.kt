@@ -1,5 +1,10 @@
 package com.mayurg.jetchess.di
 
+import android.content.Context
+import android.content.SharedPreferences
+import com.google.gson.Gson
+import com.mayurg.jetchess.business.data.local.abstraction.JetChessLocalDataSource
+import com.mayurg.jetchess.business.data.local.implementation.JetChessLocalDataSourceImpl
 import com.mayurg.jetchess.business.data.network.NetworkConstants.BASE_URL
 import com.mayurg.jetchess.business.data.network.abstraction.JetChessNetworkDataSource
 import com.mayurg.jetchess.business.data.network.implementation.JetChessNetworkDataSourceImpl
@@ -11,6 +16,7 @@ import com.mayurg.jetchess.framework.datasource.network.retrofit.JetChessApiServ
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -25,6 +31,8 @@ import javax.net.ssl.X509TrustManager
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+
+    const val PREF_NAME = "jetChess_Prefs"
 
     @Singleton
     @Provides
@@ -109,6 +117,32 @@ object AppModule {
         return JetChessNetworkDataSourceImpl(
             jetChessNetworkService
         )
+    }
+
+    @Singleton
+    @Provides
+    fun providesLocalDataSource(
+        preferences: SharedPreferences,
+        gson: Gson
+    ): JetChessLocalDataSource {
+        return JetChessLocalDataSourceImpl(
+            preferences,
+            gson
+        )
+    }
+
+    @Singleton
+    @Provides
+    fun providesPrefs(
+        @ApplicationContext context: Context
+    ): SharedPreferences {
+        return context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+    }
+
+    @Singleton
+    @Provides
+    fun providesGson(): Gson {
+        return Gson()
     }
 
 }

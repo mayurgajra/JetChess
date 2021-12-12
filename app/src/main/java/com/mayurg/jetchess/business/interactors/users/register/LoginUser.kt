@@ -6,7 +6,7 @@ import com.mayurg.jetchess.business.data.util.safeApiCall
 import com.mayurg.jetchess.business.domain.model.LoginUserFactory
 import com.mayurg.jetchess.business.domain.state.DataState
 import com.mayurg.jetchess.business.domain.state.StateEvent
-import com.mayurg.jetchess.framework.datasource.network.model.BaseResponseModel
+import com.mayurg.jetchess.framework.datasource.network.model.LoginResponseModel
 import com.mayurg.jetchess.framework.presentation.login.state.LoginUserViewState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -29,11 +29,11 @@ class LoginUser @Inject constructor(
             jetChessNetworkDataSource.loginUser(user)
         }
 
-        val response = object : ApiResponseHandler<LoginUserViewState, BaseResponseModel>(
+        val response = object : ApiResponseHandler<LoginUserViewState, LoginResponseModel>(
             response = callResult,
             stateEvent = stateEvent
         ) {
-            override suspend fun handleSuccess(resultObj: BaseResponseModel): DataState<LoginUserViewState>? {
+            override suspend fun handleSuccess(resultObj: LoginResponseModel): DataState<LoginUserViewState>? {
                 return DataState.data(
                     response = null,
                     data = LoginUserViewState(resultObj),

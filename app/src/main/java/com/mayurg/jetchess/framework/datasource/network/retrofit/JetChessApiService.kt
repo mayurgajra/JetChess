@@ -13,7 +13,7 @@ interface JetChessApiService {
     suspend fun registerUser(@Body registerUserDTO: RegisterUserDTO): BaseResponseModel
 
     @POST("login")
-    suspend fun loginUser(@Body loginUserDTO: LoginUserDTO): BaseResponseModel
+    suspend fun loginUser(@Body loginUserDTO: LoginUserDTO): LoginResponseModel
 
     @GET("getUsers")
     suspend fun getUsers(): List<UserDTO>
