@@ -1,5 +1,6 @@
 package com.mayurg.jetchess.business.interactors.users
 
+import com.mayurg.jetchess.business.interactors.users.register.GetUserInfo
 import com.mayurg.jetchess.business.interactors.users.register.LoginUser
 import com.mayurg.jetchess.business.interactors.users.register.RegisterUser
 import com.mayurg.jetchess.business.interactors.users.register.SaveUserInfo
@@ -10,5 +11,6 @@ class UserInteractors @Inject constructor(
     val registerUser: RegisterUser,
     val loginUser: LoginUser,
     val usersList: UsersList,
-    val saveUserInfo: SaveUserInfo
+    val saveUserInfo: SaveUserInfo,
+    val getUserInfo: GetUserInfo
 )

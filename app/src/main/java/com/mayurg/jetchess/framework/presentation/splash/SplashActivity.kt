@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -20,8 +21,13 @@ import androidx.compose.ui.unit.dp
 import com.mayurg.jetchess.R
 import com.mayurg.jetchess.framework.presentation.base.BaseActivity
 import com.mayurg.jetchess.framework.presentation.login.LoginActivity
-import com.mayurg.jetchess.util.hideSystemUI
+import com.mayurg.jetchess.framework.presentation.main.MainActivity
+import com.mayurg.jetchess.framework.presentation.splash.state.SplashStateEvent
 import com.mayurg.jetchess.framework.presentation.utils.themeutils.AppTheme
+import com.mayurg.jetchess.util.hideSystemUI
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 
 /**
  * Splash activity to display logo till sum required processing is done
@@ -30,6 +36,10 @@ import com.mayurg.jetchess.framework.presentation.utils.themeutils.AppTheme
  * 1.) Make sync calls
  * 2.) Redirection logic
  */
+
+@FlowPreview
+@ExperimentalCoroutinesApi
+@AndroidEntryPoint
 @ExperimentalFoundationApi
 class SplashActivity : BaseActivity() {
 
@@ -51,6 +61,8 @@ class SplashActivity : BaseActivity() {
             }, SPLASH_DELAY)
         }
     }
+
+    private val viewModel: SplashViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,13 +89,29 @@ class SplashActivity : BaseActivity() {
 
         after {
             /**
-             * Navigate to main activity and finish this activity
+             * Navigate to login/main activity and finish this activity
              */
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-            finishAffinity()
+            viewModel.setStateEvent(SplashStateEvent.GetUserData)
         }
 
+        viewModel.viewState.observe(this) { splashViewState ->
+            splashViewState.userDataSaved?.let {
+                moveToMain()
+            } ?: moveToLogin()
+        }
+
+    }
+
+    private fun moveToMain() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finishAffinity()
+    }
+
+    private fun moveToLogin() {
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
+        finishAffinity()
     }
 
     @Composable

@@ -33,4 +33,16 @@ sealed class LoginStateEvent : StateEvent {
 
         override fun shouldDisplayProgressBar() = false
     }
+
+    object GetUserData : LoginStateEvent() {
+        override fun errorInfo(): String {
+            return "Error getting user info"
+        }
+
+        override fun eventName(): String {
+            return "GetUserData"
+        }
+
+        override fun shouldDisplayProgressBar() = false
+    }
 }

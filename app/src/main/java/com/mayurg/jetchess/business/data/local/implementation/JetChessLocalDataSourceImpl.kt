@@ -22,5 +22,16 @@ class JetChessLocalDataSourceImpl constructor(
         prefs.edit().putString(USER_INFO, gson.toJson(user)).apply()
     }
 
+    override suspend fun getUserInfo(): User? {
+        val userStr = prefs.getString(USER_INFO, "")
+        val user = try {
+            gson.fromJson(userStr, User::class.java)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+        return user
+    }
+
 
 }

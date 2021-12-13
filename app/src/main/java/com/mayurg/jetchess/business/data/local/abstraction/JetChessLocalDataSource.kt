@@ -9,4 +9,6 @@ import com.mayurg.jetchess.business.domain.model.User
 interface JetChessLocalDataSource {
 
     suspend fun saveUserInfo(user: User)
+
+    suspend fun getUserInfo() : User?
 }
