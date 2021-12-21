@@ -22,8 +22,8 @@ class JetChessNetworkDataSourceImpl @Inject constructor(
         return jetChessNetworkService.loginUser(loginUserModel)
     }
 
-    override suspend fun getUsers(): List<UserDTO> {
-        return jetChessNetworkService.getUsers()
+    override suspend fun getUsers(loggedInUserId:String): List<UserDTO> {
+        return jetChessNetworkService.getUsers(loggedInUserId)
     }
 
     override suspend fun getChallenges(userId: String): List<ChallengeDTO> {

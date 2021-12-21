@@ -13,7 +13,7 @@ interface JetChessNetworkService {
 
     suspend fun loginUser(loginUserModel: LoginUserModel): LoginResponseModel
 
-    suspend fun getUsers(): List<UserDTO>
+    suspend fun getUsers(loggedInUserId:String): List<UserDTO>
 
     suspend fun getChallenges(userId: String): List<ChallengeDTO>
 

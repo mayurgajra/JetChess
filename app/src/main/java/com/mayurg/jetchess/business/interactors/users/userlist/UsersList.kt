@@ -1,5 +1,6 @@
 package com.mayurg.jetchess.business.interactors.users.userlist
 
+import com.mayurg.jetchess.business.data.local.abstraction.JetChessLocalDataSource
 import com.mayurg.jetchess.business.data.network.ApiResponseHandler
 import com.mayurg.jetchess.business.data.network.abstraction.JetChessNetworkDataSource
 import com.mayurg.jetchess.business.data.util.safeApiCall
@@ -19,12 +20,27 @@ import javax.inject.Inject
  */
 class UsersList @Inject constructor(
     private val jetChessNetworkDataSource: JetChessNetworkDataSource,
-    private val userNetworkMapper: UserNetworkMapper
+    private val userNetworkMapper: UserNetworkMapper,
+    private val jetChessLocalDataSource: JetChessLocalDataSource
 ) {
 
     fun getUsers(stateEvent: StateEvent): Flow<DataState<UserListViewState>?> = flow {
+
+        val user = jetChessLocalDataSource.getUserInfo()
+
+        if (user == null) {
+            emit(
+                DataState.data(
+                    response = null,
+                    data = UserListViewState(),
+                    stateEvent = null
+                )
+            )
+            return@flow
+        }
+
         val callResult = safeApiCall(Dispatchers.IO) {
-            jetChessNetworkDataSource.getUsers()
+            jetChessNetworkDataSource.getUsers(user.id)
         }
 
         val response = object : ApiResponseHandler<UserListViewState, List<UserDTO>>(

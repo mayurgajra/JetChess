@@ -17,7 +17,7 @@ interface JetChessApiService {
     suspend fun loginUser(@Body loginUserDTO: LoginUserDTO): LoginResponseModel
 
     @GET("getUsers")
-    suspend fun getUsers(): List<UserDTO>
+    suspend fun getUsers(@Query("loggedInUserId") userId: String): List<UserDTO>
 
     @GET("getChallenges")
     suspend fun getChallenges(@Query("userId") userId: String): List<ChallengeDTO>

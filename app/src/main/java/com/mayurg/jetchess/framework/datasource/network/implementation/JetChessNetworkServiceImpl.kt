@@ -29,8 +29,8 @@ class JetChessNetworkServiceImpl(
         return jetChessApiService.loginUser(entity)
     }
 
-    override suspend fun getUsers(): List<UserDTO> {
-        return jetChessApiService.getUsers()
+    override suspend fun getUsers(loggedInUserId:String): List<UserDTO> {
+        return jetChessApiService.getUsers(loggedInUserId)
     }
 
     override suspend fun getChallenges(userId: String): List<ChallengeDTO> {
