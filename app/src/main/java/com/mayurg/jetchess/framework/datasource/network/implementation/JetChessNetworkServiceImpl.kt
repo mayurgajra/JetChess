@@ -1,6 +1,7 @@
 package com.mayurg.jetchess.framework.datasource.network.implementation
 
 import com.mayurg.jetchess.business.domain.model.AcceptRejectChallengeRequest
+import com.mayurg.jetchess.business.domain.model.CreateGameRoomRequest
 import com.mayurg.jetchess.business.domain.model.LoginUserModel
 import com.mayurg.jetchess.business.domain.model.RegisterUserModel
 import com.mayurg.jetchess.framework.datasource.network.abstraction.JetChessNetworkService
@@ -40,5 +41,7 @@ class JetChessNetworkServiceImpl(
         return jetChessApiService.acceptRejectChallenge(AcceptRejectChallengeRequest(id, status))
     }
 
-
+    override suspend fun createGameRoom(id: String): BaseResponseModel {
+        return jetChessApiService.createGameRoom(CreateGameRoomRequest(roomId = id))
+    }
 }

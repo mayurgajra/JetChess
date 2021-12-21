@@ -34,5 +34,7 @@ class JetChessNetworkDataSourceImpl @Inject constructor(
         return jetChessNetworkService.acceptRejectChallenge(id, status)
     }
 
-
+    override suspend fun createGameRoom(id: String): BaseResponseModel {
+        return jetChessNetworkService.createGameRoom(id)
+    }
 }

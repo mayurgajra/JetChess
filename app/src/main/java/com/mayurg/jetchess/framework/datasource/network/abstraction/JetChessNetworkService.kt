@@ -18,4 +18,6 @@ interface JetChessNetworkService {
     suspend fun getChallenges(userId: String): List<ChallengeDTO>
 
     suspend fun acceptRejectChallenge(id: String, status: String): BaseResponseModel
+
+    suspend fun createGameRoom(id: String): BaseResponseModel
 }
