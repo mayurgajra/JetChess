@@ -1,16 +1,10 @@
 package com.mayurg.jetchess.framework.datasource.network.implementation
 
-import com.mayurg.jetchess.business.domain.model.AcceptRejectChallengeRequest
-import com.mayurg.jetchess.business.domain.model.CreateGameRoomRequest
-import com.mayurg.jetchess.business.domain.model.LoginUserModel
-import com.mayurg.jetchess.business.domain.model.RegisterUserModel
+import com.mayurg.jetchess.business.domain.model.*
 import com.mayurg.jetchess.framework.datasource.network.abstraction.JetChessNetworkService
 import com.mayurg.jetchess.framework.datasource.network.mappers.LoginNetworkMapper
 import com.mayurg.jetchess.framework.datasource.network.mappers.RegisterNetworkMapper
-import com.mayurg.jetchess.framework.datasource.network.model.BaseResponseModel
-import com.mayurg.jetchess.framework.datasource.network.model.ChallengeDTO
-import com.mayurg.jetchess.framework.datasource.network.model.LoginResponseModel
-import com.mayurg.jetchess.framework.datasource.network.model.UserDTO
+import com.mayurg.jetchess.framework.datasource.network.model.*
 import com.mayurg.jetchess.framework.datasource.network.retrofit.JetChessApiService
 
 class JetChessNetworkServiceImpl(
@@ -29,7 +23,7 @@ class JetChessNetworkServiceImpl(
         return jetChessApiService.loginUser(entity)
     }
 
-    override suspend fun getUsers(loggedInUserId:String): List<UserDTO> {
+    override suspend fun getUsers(loggedInUserId: String): List<UserDTO> {
         return jetChessApiService.getUsers(loggedInUserId)
     }
 
@@ -43,5 +37,9 @@ class JetChessNetworkServiceImpl(
 
     override suspend fun createGameRoom(id: String): BaseResponseModel {
         return jetChessApiService.createGameRoom(CreateGameRoomRequest(roomId = id))
+    }
+
+    override suspend fun sendChallenge(fromId: String, toId: String): SendChallengeResponse {
+        return jetChessApiService.sendChallenge(SendChallengeRequest(fromId = fromId, toId = toId))
     }
 }

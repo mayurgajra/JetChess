@@ -20,7 +20,7 @@ import com.mayurg.jetchess.business.domain.model.User
  */
 
 @Composable
-fun UsersListItem(user: User) {
+fun UsersListItem(user: User,onSendChallengeClick : (user: User) -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth(),
@@ -54,7 +54,9 @@ fun UsersListItem(user: User) {
                         backgroundColor = MaterialTheme.colors.secondary,
                         contentColor = MaterialTheme.colors.secondary
                     ),
-                    onClick = { }
+                    onClick = {
+                        onSendChallengeClick(user)
+                    }
                 ) {
                     Text(
                         text = "Challenge",

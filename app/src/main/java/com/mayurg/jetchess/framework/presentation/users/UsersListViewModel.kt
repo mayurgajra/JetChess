@@ -31,6 +31,12 @@ class UsersListViewModel @Inject constructor(
                 state.list = it
                 setViewState(state)
             }
+
+            viewState.sendChallengeResponse?.let {
+                val state = getCurrentViewStateOrNew()
+                state.sendChallengeResponse = it
+                setViewState(state)
+            }
         }
     }
 
@@ -39,6 +45,10 @@ class UsersListViewModel @Inject constructor(
 
             is UsersListStateEvent.GetUsersEvent -> {
                 userInteractors.usersList.getUsers(stateEvent)
+            }
+
+            is UsersListStateEvent.SendChallengeEvent -> {
+                userInteractors.sendChallenge.sendChallenge(stateEvent)
             }
 
             else -> {

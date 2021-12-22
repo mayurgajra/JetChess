@@ -2,6 +2,7 @@ package com.mayurg.jetchess.framework.datasource.network.retrofit
 
 import com.mayurg.jetchess.business.domain.model.AcceptRejectChallengeRequest
 import com.mayurg.jetchess.business.domain.model.CreateGameRoomRequest
+import com.mayurg.jetchess.business.domain.model.SendChallengeRequest
 import com.mayurg.jetchess.framework.datasource.network.model.*
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -27,4 +28,7 @@ interface JetChessApiService {
 
     @POST("createGameRoom")
     suspend fun createGameRoom(@Body createGameRoomRequest: CreateGameRoomRequest): BaseResponseModel
+
+    @POST("sendChallenge")
+    suspend fun sendChallenge(@Body request: SendChallengeRequest): SendChallengeResponse
 }

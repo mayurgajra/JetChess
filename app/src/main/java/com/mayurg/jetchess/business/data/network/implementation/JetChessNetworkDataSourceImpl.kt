@@ -4,10 +4,7 @@ import com.mayurg.jetchess.business.data.network.abstraction.JetChessNetworkData
 import com.mayurg.jetchess.business.domain.model.LoginUserModel
 import com.mayurg.jetchess.business.domain.model.RegisterUserModel
 import com.mayurg.jetchess.framework.datasource.network.abstraction.JetChessNetworkService
-import com.mayurg.jetchess.framework.datasource.network.model.BaseResponseModel
-import com.mayurg.jetchess.framework.datasource.network.model.ChallengeDTO
-import com.mayurg.jetchess.framework.datasource.network.model.LoginResponseModel
-import com.mayurg.jetchess.framework.datasource.network.model.UserDTO
+import com.mayurg.jetchess.framework.datasource.network.model.*
 import javax.inject.Inject
 
 class JetChessNetworkDataSourceImpl @Inject constructor(
@@ -22,7 +19,7 @@ class JetChessNetworkDataSourceImpl @Inject constructor(
         return jetChessNetworkService.loginUser(loginUserModel)
     }
 
-    override suspend fun getUsers(loggedInUserId:String): List<UserDTO> {
+    override suspend fun getUsers(loggedInUserId: String): List<UserDTO> {
         return jetChessNetworkService.getUsers(loggedInUserId)
     }
 
@@ -36,5 +33,9 @@ class JetChessNetworkDataSourceImpl @Inject constructor(
 
     override suspend fun createGameRoom(id: String): BaseResponseModel {
         return jetChessNetworkService.createGameRoom(id)
+    }
+
+    override suspend fun sendChallenge(fromId: String, toId: String): SendChallengeResponse {
+        return jetChessNetworkService.sendChallenge(fromId = fromId, toId = toId)
     }
 }

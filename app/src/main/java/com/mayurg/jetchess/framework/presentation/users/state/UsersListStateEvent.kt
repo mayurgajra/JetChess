@@ -20,4 +20,18 @@ sealed class UsersListStateEvent : StateEvent {
         override fun shouldDisplayProgressBar() = true
     }
 
+    class SendChallengeEvent(
+        val toId: String
+    ) : UsersListStateEvent() {
+        override fun errorInfo(): String {
+            return "Error sending challenge"
+        }
+
+        override fun eventName(): String {
+            return "SendChallengeEvent"
+        }
+
+        override fun shouldDisplayProgressBar() = true
+    }
+
 }

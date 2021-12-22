@@ -31,6 +31,8 @@ fun Users(
     mainViewModel.setCurrentScreen(Screens.MainScreens.Users)
     usersListViewModel.setStateEvent(UsersListStateEvent.GetUsersEvent)
 
+
+
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -43,9 +45,17 @@ fun Users(
         ) {
             items(usersListViewModel.viewState.value?.list?.size ?: 0) { pos ->
                 UsersListItem(
-                    user = usersListViewModel.viewState.value?.list?.get(pos)!!
+                    user = usersListViewModel.viewState.value?.list?.get(pos)!!,
+                    onSendChallengeClick = { user ->
+                        usersListViewModel.setStateEvent(
+                            UsersListStateEvent.SendChallengeEvent(toId = user.id)
+                        )
+                    }
                 )
             }
         }
+
     }
+
 }
+
