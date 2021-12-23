@@ -17,7 +17,7 @@ import com.mayurg.jetchess.framework.presentation.playgame.gameview.MoveResult
 import com.mayurg.jetchess.framework.presentation.playgame.pieceview.PiecePosition
 import com.mayurg.jetchess.framework.presentation.utils.themeutils.AppTheme
 
-@ExperimentalFoundationApi
+
 class PlayGameActivity : BaseActivity() {
 
 

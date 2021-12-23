@@ -34,4 +34,18 @@ sealed class UsersListStateEvent : StateEvent {
         override fun shouldDisplayProgressBar() = true
     }
 
+    class CreateGameRoomEvent(
+        val roomId: String
+    ) : UsersListStateEvent() {
+        override fun errorInfo(): String {
+            return "Error creating game room"
+        }
+
+        override fun eventName(): String {
+            return "CreateGameRoomEvent"
+        }
+
+        override fun shouldDisplayProgressBar() = true
+    }
+
 }

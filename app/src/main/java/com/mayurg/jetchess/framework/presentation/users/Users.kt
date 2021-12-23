@@ -31,8 +31,6 @@ fun Users(
     mainViewModel.setCurrentScreen(Screens.MainScreens.Users)
     usersListViewModel.setStateEvent(UsersListStateEvent.GetUsersEvent)
 
-
-
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,

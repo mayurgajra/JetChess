@@ -9,5 +9,6 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class UserListViewState(
     var list: List<User>? = null,
-    var sendChallengeResponse: SendChallengeResponse? = null
+    var sendChallengeResponse: SendChallengeResponse? = null,
+    var roomId: String? = null
 ) : Parcelable, ViewState

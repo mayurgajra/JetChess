@@ -19,7 +19,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.mayurg.jetchess.business.domain.state.StateMessageCallback
 import com.mayurg.jetchess.framework.presentation.base.BaseActivity
 import com.mayurg.jetchess.framework.presentation.challenges.Challenges
 import com.mayurg.jetchess.framework.presentation.challenges.ChallengesListViewModel
@@ -66,14 +65,11 @@ class MainActivity : BaseActivity() {
         }
 
         @OptIn(ExperimentalCoroutinesApi::class)
-        usersListViewModel.stateMessage.observe(this) { stateMessage ->
-            stateMessage?.let { msg ->
-                onResponseReceived(msg.response, stateMessageCallback = object :
-                    StateMessageCallback {
-                    override fun removeMessageFromStack() {
-                        usersListViewModel.clearStateMessage()
-                    }
-                })
+        usersListViewModel.viewState.observe(this) { viewState ->
+            viewState?.let { state ->
+                state.roomId?.let {
+                    startActivity(Intent(this, PlayGameActivity::class.java))
+                }
             }
         }
 
