@@ -31,4 +31,9 @@ interface JetChessApiService {
 
     @POST("sendChallenge")
     suspend fun sendChallenge(@Body request: SendChallengeRequest): SendChallengeResponse
+
+    @GET("joinGameRoom")
+    suspend fun joinGameRoom(
+        @Query("userId") userId: String, @Query("roomId") roomId: String,
+    ): BaseResponseModel
 }

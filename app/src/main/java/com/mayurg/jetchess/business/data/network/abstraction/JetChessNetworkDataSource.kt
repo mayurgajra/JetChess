@@ -18,5 +18,7 @@ interface JetChessNetworkDataSource {
 
     suspend fun createGameRoom(id: String): BaseResponseModel
 
-    suspend fun sendChallenge(fromId: String,toId: String): SendChallengeResponse
+    suspend fun joinGameRoom(userId: String, roomId: String): BaseResponseModel
+
+    suspend fun sendChallenge(fromId: String, toId: String): SendChallengeResponse
 }

@@ -68,7 +68,9 @@ class MainActivity : BaseActivity() {
         usersListViewModel.viewState.observe(this) { viewState ->
             viewState?.let { state ->
                 state.roomId?.let {
-                    startActivity(Intent(this, PlayGameActivity::class.java))
+                    val intent = Intent(this, PlayGameActivity::class.java)
+                    intent.putExtra("roomId", it)
+                    startActivity(intent)
                 }
             }
         }

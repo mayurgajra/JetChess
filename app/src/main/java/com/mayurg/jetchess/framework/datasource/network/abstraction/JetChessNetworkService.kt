@@ -10,7 +10,7 @@ interface JetChessNetworkService {
 
     suspend fun loginUser(loginUserModel: LoginUserModel): LoginResponseModel
 
-    suspend fun getUsers(loggedInUserId:String): List<UserDTO>
+    suspend fun getUsers(loggedInUserId: String): List<UserDTO>
 
     suspend fun getChallenges(userId: String): List<ChallengeDTO>
 
@@ -18,5 +18,7 @@ interface JetChessNetworkService {
 
     suspend fun createGameRoom(id: String): BaseResponseModel
 
-    suspend fun sendChallenge(fromId: String,toId: String): SendChallengeResponse
+    suspend fun sendChallenge(fromId: String, toId: String): SendChallengeResponse
+
+    suspend fun joinGameRoom(userId: String, roomId: String): BaseResponseModel
 }

@@ -39,6 +39,10 @@ class JetChessNetworkServiceImpl(
         return jetChessApiService.createGameRoom(CreateGameRoomRequest(roomId = id))
     }
 
+    override suspend fun joinGameRoom(userId: String, roomId: String): BaseResponseModel {
+        return jetChessApiService.joinGameRoom(userId, roomId)
+    }
+
     override suspend fun sendChallenge(fromId: String, toId: String): SendChallengeResponse {
         return jetChessApiService.sendChallenge(SendChallengeRequest(fromId = fromId, toId = toId))
     }
