@@ -31,6 +31,14 @@ class ChallengesListViewModel @Inject constructor(
                 state.list = it
                 setViewState(state)
             }
+
+            viewState.statusChangeResult?.let { stateResult ->
+                val state = getCurrentViewStateOrNew()
+                state.statusChangeResult = stateResult
+                state.roomId = data.roomId
+                setViewState(state)
+            }
+
         }
     }
 

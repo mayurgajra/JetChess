@@ -45,6 +45,7 @@ class MainActivity : BaseActivity() {
 
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Composable
     fun AppScaffold() {
         val viewModel: MainViewModel = viewModel()
@@ -64,7 +65,7 @@ class MainActivity : BaseActivity() {
             }
         }
 
-        @OptIn(ExperimentalCoroutinesApi::class)
+
         usersListViewModel.viewState.observe(this) { viewState ->
             viewState?.let { state ->
                 state.roomId?.let {
@@ -73,6 +74,22 @@ class MainActivity : BaseActivity() {
                     startActivity(intent)
                 }
             }
+        }
+
+        challengesListViewModel.viewState.observe(this) { viewState ->
+            viewState?.let { state ->
+                state.statusChangeResult?.let { stateResult ->
+                    if (stateResult == "accepted") {
+                        state.roomId?.let {
+                            val intent = Intent(this, PlayGameActivity::class.java)
+                            intent.putExtra("roomId", it)
+                            startActivity(intent)
+                        }
+                    }
+                }
+
+            }
+
         }
 
         Scaffold(

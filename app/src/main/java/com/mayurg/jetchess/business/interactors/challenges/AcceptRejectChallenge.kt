@@ -33,7 +33,12 @@ class AcceptRejectChallenge @Inject constructor(
                 override suspend fun handleSuccess(resultObj: BaseResponseModel): DataState<ChallengesListViewState>? {
                     return DataState.data(
                         response = null,
-                        data = ChallengesListViewState(statusChangeResult = resultObj),
+                        data = ChallengesListViewState(
+                            statusChangeResult =
+                            if (resultObj.successful) stateEvent.status else null,
+                            roomId =
+                            if (resultObj.successful) stateEvent.id else null
+                        ),
                         stateEvent = null
                     )
                 }

@@ -3,7 +3,6 @@ package com.mayurg.jetchess.framework.presentation.challenges.state
 import android.os.Parcelable
 import com.mayurg.jetchess.business.domain.model.Challenge
 import com.mayurg.jetchess.business.domain.state.ViewState
-import com.mayurg.jetchess.framework.datasource.network.model.BaseResponseModel
 import kotlinx.parcelize.Parcelize
 
 /**
@@ -13,5 +12,6 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class ChallengesListViewState(
     var list: List<Challenge>? = null,
-    var statusChangeResult: BaseResponseModel? = null
+    var statusChangeResult: String? = null,
+    var roomId: String? = null
 ) : Parcelable, ViewState
