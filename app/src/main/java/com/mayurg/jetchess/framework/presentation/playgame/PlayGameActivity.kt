@@ -1,6 +1,7 @@
 package com.mayurg.jetchess.framework.presentation.playgame
 
 import android.os.Bundle
+import android.text.TextUtils
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
@@ -31,9 +32,11 @@ class PlayGameActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val roomId = intent.extras!!.getString("roomId")!!
+        val roomId = intent.extras?.getString("roomId") ?: ""
 
-        viewModel.setStateEvent(PlayGameStateEvent.JoinRoomEvent(roomId))
+        if (!TextUtils.isEmpty(roomId)) {
+            viewModel.setStateEvent(PlayGameStateEvent.JoinRoomEvent(roomId))
+        }
         setContent {
             AppTheme {
                 PlayGameView()

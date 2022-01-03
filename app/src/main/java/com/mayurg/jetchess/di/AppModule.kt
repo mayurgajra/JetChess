@@ -13,11 +13,14 @@ import com.mayurg.jetchess.framework.datasource.network.implementation.JetChessN
 import com.mayurg.jetchess.framework.datasource.network.mappers.LoginNetworkMapper
 import com.mayurg.jetchess.framework.datasource.network.mappers.RegisterNetworkMapper
 import com.mayurg.jetchess.framework.datasource.network.retrofit.JetChessApiService
+import com.mayurg.jetchess.util.DispatcherProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -143,6 +146,19 @@ object AppModule {
     @Provides
     fun providesGson(): Gson {
         return Gson()
+    }
+
+    @Singleton
+    @Provides
+    fun provideDispatcherProvider(): DispatcherProvider {
+        return object : DispatcherProvider {
+            override val main: CoroutineDispatcher
+                get() = Dispatchers.Main
+            override val io: CoroutineDispatcher
+                get() = Dispatchers.IO
+            override val default: CoroutineDispatcher
+                get() = Dispatchers.Default
+        }
     }
 
 }

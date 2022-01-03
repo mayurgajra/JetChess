@@ -104,4 +104,14 @@ dependencies {
     androidTestImplementation InstrumentedTests.hiltAndroidTest
     kaptAndroidTest InstrumentedTests.hiltAndroidTestCompiler
 
+    def scarletVersion = '0.1.10'
+    implementation "com.tinder.scarlet:scarlet:$scarletVersion"
+    implementation "com.tinder.scarlet:websocket-okhttp:$scarletVersion"
+    implementation "com.tinder.scarlet:lifecycle-android:$scarletVersion"
+    implementation "com.tinder.scarlet:message-adapter-gson:$scarletVersion"
+    implementation "com.tinder.scarlet:stream-adapter-coroutines:$scarletVersion"
+
+    // Gson
+    implementation 'com.google.code.gson:gson:2.8.8'
+
 }

@@ -7,5 +7,5 @@ import java.io.Serializable
  * @author Mayur Gajra
  */
 data class PlayGameViewState(
-    var hasJoinedGameRoom: Boolean = false
+    var hasJoinedGameRoom: Boolean? = false
 ) : Serializable
