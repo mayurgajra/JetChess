@@ -12,6 +12,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.lifecycleScope
 import com.mayurg.jetchess.framework.presentation.base.BaseActivity
 import com.mayurg.jetchess.framework.presentation.playgame.boardview.BoardMainContainer
 import com.mayurg.jetchess.framework.presentation.playgame.gameview.Game
@@ -19,9 +20,11 @@ import com.mayurg.jetchess.framework.presentation.playgame.gameview.MoveResult
 import com.mayurg.jetchess.framework.presentation.playgame.pieceview.PiecePosition
 import com.mayurg.jetchess.framework.presentation.playgame.state.PlayGameStateEvent
 import com.mayurg.jetchess.framework.presentation.utils.themeutils.AppTheme
+import com.tinder.scarlet.WebSocket
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.collect
 
 
 @OptIn(FlowPreview::class)
@@ -37,6 +40,28 @@ class PlayGameActivity : BaseActivity() {
         if (!TextUtils.isEmpty(roomId)) {
             viewModel.setStateEvent(PlayGameStateEvent.JoinRoomEvent(roomId))
         }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.connectionEvent.collect { event ->
+                when (event) {
+                    is WebSocket.Event.OnConnectionOpened<*> -> {
+                        viewModel.sendWsEvent(
+                            PlayGameViewModel.SendWsEvent.JoinRoomHandShakeEvent(roomId)
+                        )
+                    }
+
+                    is WebSocket.Event.OnConnectionFailed -> {
+                        event.throwable.printStackTrace()
+                    }
+
+                    is WebSocket.Event.OnConnectionClosed -> {
+
+                    }
+                    else -> Unit
+                }
+            }
+        }
+
         setContent {
             AppTheme {
                 PlayGameView()

@@ -8,11 +8,11 @@ import com.mayurg.jetchess.util.Constants.TYPE_JOIN_ROOM_HANDSHAKE
  * When a web socket connection is established with websockets
  *
  * @param username is the unique username logged into the app
- * @param roomName is the room name user has joined
- * @param clientId is UUID.randomUUID() used to identify user re-joining or a completely new user
+ * @param roomId is the room id user has to join
+ * @param playerId is logged in user id
  */
 data class JoinRoomHandshake(
     val username: String,
-    val roomName: String,
-    val clientId: String
+    val roomId: String,
+    val playerId: String
 ) : BaseModel(TYPE_JOIN_ROOM_HANDSHAKE)
