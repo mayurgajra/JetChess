@@ -4,7 +4,7 @@ import android.app.Application
 import com.google.gson.Gson
 import com.mayurg.jetchess.business.data.network.NetworkConstants
 import com.mayurg.jetchess.framework.datasource.network.ws.CustomMessageAdapter
-import com.mayurg.jetchess.framework.datasource.network.ws.DrawingApi
+import com.mayurg.jetchess.framework.datasource.network.ws.GameApi
 import com.mayurg.jetchess.framework.datasource.network.ws.FlowStreamAdapter
 import com.tinder.scarlet.Scarlet
 import com.tinder.scarlet.lifecycle.android.AndroidLifecycle
@@ -32,7 +32,7 @@ object ActivityModule {
         app: Application,
         okkHttpClient: OkHttpClient,
         gson: Gson
-    ): DrawingApi {
+    ): GameApi {
         return Scarlet.Builder()
             .backoffStrategy(LinearBackoffStrategy(NetworkConstants.RECONNECT_INTERVAL))
             .lifecycle(AndroidLifecycle.ofApplicationForeground(app))

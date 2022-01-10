@@ -2,6 +2,7 @@ package com.mayurg.jetchess.framework.datasource.network.ws.models
 
 import com.mayurg.jetchess.util.Constants
 import com.mayurg.jetchess.util.Constants.TYPE_PING
+import java.io.Serializable
 
 /**
  * Base class for all responses so that all model can be used in list or adapter
@@ -10,4 +11,4 @@ import com.mayurg.jetchess.util.Constants.TYPE_PING
  *
  * Other types can be found in [Constants] class
  */
-abstract class BaseModel(val type: String)
+abstract class BaseModel(val type: String) : Serializable

@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.Flow
  * Created On 03/01/2022
  * @author Mayur Gajra
  */
-interface DrawingApi {
+interface GameApi {
 
     /**
      * It receives the events related to [WebSocket] Like OnConnectionOpened,closed etc

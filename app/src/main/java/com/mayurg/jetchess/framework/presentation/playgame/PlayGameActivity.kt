@@ -14,8 +14,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
 import com.mayurg.jetchess.framework.presentation.base.BaseActivity
+import com.mayurg.jetchess.framework.presentation.playgame.PlayGameViewModel.SendWsEvent.PieceMovedEvent
 import com.mayurg.jetchess.framework.presentation.playgame.boardview.BoardMainContainer
-import com.mayurg.jetchess.framework.presentation.playgame.gameview.Game
+import com.mayurg.jetchess.framework.presentation.playgame.gameview.Move
 import com.mayurg.jetchess.framework.presentation.playgame.gameview.MoveResult
 import com.mayurg.jetchess.framework.presentation.playgame.pieceview.PiecePosition
 import com.mayurg.jetchess.framework.presentation.playgame.state.PlayGameStateEvent
@@ -24,7 +25,7 @@ import com.tinder.scarlet.WebSocket
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 
 
 @OptIn(FlowPreview::class)
@@ -42,7 +43,7 @@ class PlayGameActivity : BaseActivity() {
         }
 
         lifecycleScope.launchWhenStarted {
-            viewModel.connectionEvent.collect { event ->
+            viewModel.connectionEvent.collectLatest { event ->
                 when (event) {
                     is WebSocket.Event.OnConnectionOpened<*> -> {
                         viewModel.sendWsEvent(
@@ -62,9 +63,28 @@ class PlayGameActivity : BaseActivity() {
             }
         }
 
+        lifecycleScope.launchWhenStarted {
+            viewModel.socketEvent.collectLatest { event ->
+                when (event) {
+                    is PlayGameViewModel.SocketEvent.PieceMoved -> {
+                        try {
+                            val moveResult = viewModel.moveResult.value as MoveResult.Success
+                            val game = moveResult.game
+                            val move = event.move
+                            viewModel.moveResult.value =
+                                game.doMove(move.fromPosition, move.toPosition)
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+                }
+
+            }
+        }
+
         setContent {
             AppTheme {
-                PlayGameView()
+                PlayGameView(roomId)
             }
         }
     }
@@ -72,12 +92,12 @@ class PlayGameActivity : BaseActivity() {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Composable
-    fun PlayGameView() {
-        var moveResult by remember { mutableStateOf<MoveResult>(MoveResult.Success(Game())) }
+    fun PlayGameView(roomId: String) {
+        val moveResult = viewModel.moveResult.observeAsState()
         var selection: PiecePosition? by remember { mutableStateOf(null) }
         val viewState = viewModel.viewState.observeAsState()
 
-        when (val result = moveResult) {
+        when (val result = moveResult.value) {
             is MoveResult.Success -> {
                 val game = result.game
 
@@ -86,7 +106,8 @@ class PlayGameActivity : BaseActivity() {
                     if (game.canSelect(it)) {
                         selection = it
                     } else if (sel != null && game.canMove(sel, it)) {
-                        moveResult = game.doMove(sel, it)
+                        viewModel.moveResult.value = game.doMove(sel, it)
+                        viewModel.sendWsEvent(PieceMovedEvent(roomId, Move(sel, it)))
                         selection = null
                     }
                 }

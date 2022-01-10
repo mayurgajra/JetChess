@@ -1,14 +1,19 @@
 package com.mayurg.jetchess.framework.presentation.playgame
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mayurg.jetchess.business.data.local.abstraction.JetChessLocalDataSource
 import com.mayurg.jetchess.business.domain.state.DataState
 import com.mayurg.jetchess.business.domain.state.StateEvent
 import com.mayurg.jetchess.business.interactors.playgame.PlayGameInteractors
-import com.mayurg.jetchess.framework.datasource.network.ws.DrawingApi
+import com.mayurg.jetchess.framework.datasource.network.ws.GameApi
 import com.mayurg.jetchess.framework.datasource.network.ws.models.BaseModel
+import com.mayurg.jetchess.framework.datasource.network.ws.models.GameMove
 import com.mayurg.jetchess.framework.datasource.network.ws.models.JoinRoomHandshake
 import com.mayurg.jetchess.framework.presentation.base.BaseViewModel
+import com.mayurg.jetchess.framework.presentation.playgame.gameview.Game
+import com.mayurg.jetchess.framework.presentation.playgame.gameview.Move
+import com.mayurg.jetchess.framework.presentation.playgame.gameview.MoveResult
 import com.mayurg.jetchess.framework.presentation.playgame.state.PlayGameStateEvent
 import com.mayurg.jetchess.framework.presentation.playgame.state.PlayGameViewState
 import com.mayurg.jetchess.util.DispatcherProvider
@@ -34,16 +39,18 @@ import javax.inject.Inject
 class PlayGameViewModel @Inject constructor(
     private val dispatchers: DispatcherProvider,
     private val playGameInteractors: PlayGameInteractors,
-    private val drawingApi: DrawingApi,
+    private val gameApi: GameApi,
     private val jetChessLocalDataSource: JetChessLocalDataSource
 ) : BaseViewModel<PlayGameViewState>() {
 
     sealed class SocketEvent {
-
+        class PieceMoved(val move: Move) : SocketEvent()
     }
 
     sealed class SendWsEvent {
         class JoinRoomHandShakeEvent(val roomId: String) : SendWsEvent()
+
+        class PieceMovedEvent(val roomId: String, val move: Move) : SendWsEvent()
     }
 
     /**
@@ -60,8 +67,11 @@ class PlayGameViewModel @Inject constructor(
     private val socketEventChannel = Channel<SocketEvent>()
     val socketEvent = socketEventChannel.receiveAsFlow().flowOn(dispatchers.io)
 
+    var moveResult = MutableLiveData<MoveResult>(MoveResult.Success(Game()))
+
     init {
         observeEvents()
+        observeBaseModels()
     }
 
     override fun handleNewData(data: PlayGameViewState) {
@@ -107,6 +117,18 @@ class PlayGameViewModel @Inject constructor(
                 }
 
             }
+
+            is SendWsEvent.PieceMovedEvent -> {
+                viewModelScope.launch {
+                    val user = jetChessLocalDataSource.getUserInfo()
+                    user?.let {
+                        sendBaseModel(
+                            GameMove(it.id, event.roomId, event.move)
+                        )
+                    }
+
+                }
+            }
         }
     }
 
@@ -116,20 +138,32 @@ class PlayGameViewModel @Inject constructor(
      */
     private fun observeEvents() {
         viewModelScope.launch(dispatchers.io) {
-            drawingApi.observeEvents().collect { event ->
+            gameApi.observeEvents().collect { event ->
                 connectionEventChannel.send(event)
             }
         }
     }
 
+    private fun observeBaseModels() {
+        viewModelScope.launch(dispatchers.io) {
+            gameApi.observeBaseModels().collect { data ->
+                when (data) {
+                    is GameMove -> {
+                        socketEventChannel.send(SocketEvent.PieceMoved(data.move))
+                    }
+                }
+            }
+        }
+    }
+
     /**
-     * Send the [BaseModel] through [drawingApi] socket
+     * Send the [BaseModel] through [gameApi] socket
      *
      * @param data of [BaseModel] to send through socket
      */
-    fun sendBaseModel(data: BaseModel) {
+    private fun sendBaseModel(data: BaseModel) {
         viewModelScope.launch(dispatchers.io) {
-            drawingApi.sendBaseModel(data)
+            gameApi.sendBaseModel(data)
         }
     }
 }
