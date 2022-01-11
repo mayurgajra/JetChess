@@ -2,12 +2,10 @@ package com.mayurg.jetchess.framework.datasource.network.ws
 
 import com.google.gson.Gson
 import com.google.gson.JsonParser
-import com.mayurg.jetchess.framework.datasource.network.ws.models.BaseModel
-import com.mayurg.jetchess.framework.datasource.network.ws.models.DisconnectRequest
-import com.mayurg.jetchess.framework.datasource.network.ws.models.JoinRoomHandshake
-import com.mayurg.jetchess.framework.datasource.network.ws.models.Ping
+import com.mayurg.jetchess.framework.datasource.network.ws.models.*
 import com.mayurg.jetchess.util.Constants.TYPE_DISCONNECT_REQUEST
 import com.mayurg.jetchess.util.Constants.TYPE_JOIN_ROOM_HANDSHAKE
+import com.mayurg.jetchess.util.Constants.TYPE_MOVE
 import com.mayurg.jetchess.util.Constants.TYPE_PING
 import com.tinder.scarlet.Message
 import com.tinder.scarlet.MessageAdapter
@@ -39,6 +37,7 @@ class CustomMessageAdapter<T> private constructor(
             TYPE_JOIN_ROOM_HANDSHAKE -> JoinRoomHandshake::class.java
             TYPE_PING -> Ping::class.java
             TYPE_DISCONNECT_REQUEST -> DisconnectRequest::class.java
+            TYPE_MOVE -> GameMove::class.java
             else -> BaseModel::class.java
         }
 
@@ -52,6 +51,7 @@ class CustomMessageAdapter<T> private constructor(
             TYPE_JOIN_ROOM_HANDSHAKE -> convertedData as JoinRoomHandshake
             TYPE_PING -> convertedData as Ping
             TYPE_DISCONNECT_REQUEST -> convertedData as DisconnectRequest
+            TYPE_MOVE -> convertedData as GameMove
             else -> convertedData
         }
 
