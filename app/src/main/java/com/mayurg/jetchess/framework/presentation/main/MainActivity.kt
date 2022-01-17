@@ -71,6 +71,7 @@ class MainActivity : BaseActivity() {
                 state.roomId?.let {
                     val intent = Intent(this, PlayGameActivity::class.java)
                     intent.putExtra("roomId", it)
+                    intent.putExtra("shouldRotate", false)
                     startActivity(intent)
                 }
             }
@@ -83,6 +84,7 @@ class MainActivity : BaseActivity() {
                         state.roomId?.let {
                             val intent = Intent(this, PlayGameActivity::class.java)
                             intent.putExtra("roomId", it)
+                            intent.putExtra("shouldRotate", true)
                             startActivity(intent)
                         }
                     }

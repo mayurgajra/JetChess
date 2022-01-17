@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.res.painterResource
@@ -36,7 +37,8 @@ fun BoardMainContainer(
     game: Game,
     selection: PiecePosition?,
     moves: List<PiecePosition>,
-    didTap: (PiecePosition) -> Unit
+    didTap: (PiecePosition) -> Unit,
+    currentRotation: Float
 ) {
     Box(modifier) {
         val board = game.board
@@ -51,7 +53,8 @@ fun BoardMainContainer(
             modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(1.0f),
-            pieces = board.allPieces
+            pieces = board.allPieces,
+            currentRotation = currentRotation
         )
         MovesOverlay(board, moves)
     }
@@ -113,21 +116,24 @@ private fun BoardBg(
 @Composable
 private fun BoardPiecesSetup(
     modifier: Modifier = Modifier,
-    pieces: List<Pair<PiecePosition, Piece>>
+    pieces: List<Pair<PiecePosition, Piece>>,
+    currentRotation: Float
 ) {
     val constrains = constrainsForGivenPieces(pieces)
     ConstraintLayout(constrains, modifier) {
         pieces.forEach { (_, piece) ->
-            PieceView(piece = piece, modifier = Modifier.layoutId(piece.id))
+            PieceView(piece = piece, modifier = Modifier.layoutId(piece.id), currentRotation)
         }
     }
 }
 
 @Composable
-fun PieceView(piece: Piece, modifier: Modifier = Modifier) {
+fun PieceView(piece: Piece, modifier: Modifier = Modifier, currentRotation: Float) {
     Image(
         painter = painterResource(id = piece.getPieceDrawable()),
-        contentDescription = "", modifier = modifier.padding(4.dp)
+        contentDescription = "", modifier = modifier
+            .padding(4.dp)
+            .rotate(currentRotation)
     )
 }
 
@@ -167,7 +173,6 @@ fun MovesOverlay(board: Board, movesList: List<PiecePosition>) {
         }
     }
 }
-
 
 
 fun constrainsForGivenPieces(pieces: List<Pair<PiecePosition, Piece>>): ConstraintSet {

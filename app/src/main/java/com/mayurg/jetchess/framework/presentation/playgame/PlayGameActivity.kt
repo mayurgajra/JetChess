@@ -10,6 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
@@ -37,6 +38,7 @@ class PlayGameActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val roomId = intent.extras?.getString("roomId") ?: ""
+        val shouldRotate = intent.extras?.getBoolean("shouldRotate", false) ?: false
 
         if (!TextUtils.isEmpty(roomId)) {
             viewModel.setStateEvent(PlayGameStateEvent.JoinRoomEvent(roomId))
@@ -84,7 +86,7 @@ class PlayGameActivity : BaseActivity() {
 
         setContent {
             AppTheme {
-                PlayGameView(roomId)
+                PlayGameView(roomId, shouldRotate)
             }
         }
     }
@@ -92,10 +94,11 @@ class PlayGameActivity : BaseActivity() {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Composable
-    fun PlayGameView(roomId: String) {
+    fun PlayGameView(roomId: String, shouldRotate: Boolean) {
         val moveResult = viewModel.moveResult.observeAsState()
         var selection: PiecePosition? by remember { mutableStateOf(null) }
         val viewState = viewModel.viewState.observeAsState()
+        val currentRotation = if (shouldRotate) 180f else 0f
 
         when (val result = moveResult.value) {
             is MoveResult.Success -> {
@@ -115,10 +118,12 @@ class PlayGameActivity : BaseActivity() {
                 Column {
                     Text(text = "Player 1", color = Color.White, modifier = Modifier.padding(16.dp))
                     BoardMainContainer(
+                        modifier = Modifier.rotate(currentRotation),
                         game = game,
                         selection = selection,
                         moves = game.movesForPieceAt(selection),
-                        didTap = onSelect
+                        didTap = onSelect,
+                        currentRotation = currentRotation
                     )
                     Text(text = "Player 2", color = Color.White, modifier = Modifier.padding(16.dp))
 
