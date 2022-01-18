@@ -10,6 +10,7 @@ import com.mayurg.jetchess.framework.datasource.network.ws.GameApi
 import com.mayurg.jetchess.framework.datasource.network.ws.models.BaseModel
 import com.mayurg.jetchess.framework.datasource.network.ws.models.GameMove
 import com.mayurg.jetchess.framework.datasource.network.ws.models.JoinRoomHandshake
+import com.mayurg.jetchess.framework.datasource.network.ws.models.PlayerFE
 import com.mayurg.jetchess.framework.presentation.base.BaseViewModel
 import com.mayurg.jetchess.framework.presentation.playgame.gameview.Game
 import com.mayurg.jetchess.framework.presentation.playgame.gameview.Move
@@ -45,6 +46,7 @@ class PlayGameViewModel @Inject constructor(
 
     sealed class SocketEvent {
         class PieceMoved(val move: Move) : SocketEvent()
+        class PlayerJoined(val playerFE: PlayerFE) : SocketEvent()
     }
 
     sealed class SendWsEvent {
@@ -68,6 +70,9 @@ class PlayGameViewModel @Inject constructor(
     val socketEvent = socketEventChannel.receiveAsFlow().flowOn(dispatchers.io)
 
     var moveResult = MutableLiveData<MoveResult>(MoveResult.Success(Game()))
+
+    var loggedInPlayer = MutableLiveData(PlayerFE())
+    var oppositePlayer = MutableLiveData(PlayerFE())
 
     init {
         observeEvents()
@@ -151,6 +156,10 @@ class PlayGameViewModel @Inject constructor(
                     is GameMove -> {
                         socketEventChannel.send(SocketEvent.PieceMoved(data.move))
                     }
+
+                    is PlayerFE -> {
+                        socketEventChannel.send(SocketEvent.PlayerJoined(data))
+                    }
                 }
             }
         }
@@ -165,5 +174,19 @@ class PlayGameViewModel @Inject constructor(
         viewModelScope.launch(dispatchers.io) {
             gameApi.sendBaseModel(data)
         }
+    }
+
+    fun setPlayerJoined(playerFE: PlayerFE) {
+        viewModelScope.launch {
+            val user = jetChessLocalDataSource.getUserInfo()
+            user?.let {
+                if (playerFE.playerId == it.id) {
+                    loggedInPlayer.postValue(playerFE)
+                } else {
+                    oppositePlayer.postValue(playerFE)
+                }
+            }
+        }
+
     }
 }

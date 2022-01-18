@@ -79,6 +79,10 @@ class PlayGameActivity : BaseActivity() {
                             e.printStackTrace()
                         }
                     }
+
+                    is PlayGameViewModel.SocketEvent.PlayerJoined -> {
+                        viewModel.setPlayerJoined(event.playerFE)
+                    }
                 }
 
             }
@@ -100,6 +104,9 @@ class PlayGameActivity : BaseActivity() {
         val viewState = viewModel.viewState.observeAsState()
         val currentRotation = if (shouldRotate) 180f else 0f
 
+        val loggedInPlayer = viewModel.loggedInPlayer.observeAsState()
+        val oppositePlayer = viewModel.oppositePlayer.observeAsState()
+
         when (val result = moveResult.value) {
             is MoveResult.Success -> {
                 val game = result.game
@@ -116,7 +123,7 @@ class PlayGameActivity : BaseActivity() {
                 }
 
                 Column {
-                    Text(text = "Player 1", color = Color.White, modifier = Modifier.padding(16.dp))
+                    Text(text = oppositePlayer.value?.playerName.orEmpty(), color = Color.White, modifier = Modifier.padding(16.dp))
                     BoardMainContainer(
                         modifier = Modifier.rotate(currentRotation),
                         game = game,
@@ -125,13 +132,7 @@ class PlayGameActivity : BaseActivity() {
                         didTap = onSelect,
                         currentRotation = currentRotation
                     )
-                    Text(text = "Player 2", color = Color.White, modifier = Modifier.padding(16.dp))
-
-                    Text(
-                        text = (viewState.value?.hasJoinedGameRoom ?: false).toString(),
-                        color = Color.White,
-                        modifier = Modifier.padding(16.dp)
-                    )
+                    Text(text = "${loggedInPlayer.value?.playerName.orEmpty()} (You)", color = Color.White, modifier = Modifier.padding(16.dp))
                 }
             }
         }

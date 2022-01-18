@@ -7,6 +7,7 @@ import com.mayurg.jetchess.util.Constants.TYPE_DISCONNECT_REQUEST
 import com.mayurg.jetchess.util.Constants.TYPE_JOIN_ROOM_HANDSHAKE
 import com.mayurg.jetchess.util.Constants.TYPE_MOVE
 import com.mayurg.jetchess.util.Constants.TYPE_PING
+import com.mayurg.jetchess.util.Constants.TYPE_PLAYER_FE
 import com.tinder.scarlet.Message
 import com.tinder.scarlet.MessageAdapter
 import com.tinder.scarlet.Scarlet
@@ -38,6 +39,7 @@ class CustomMessageAdapter<T> private constructor(
             TYPE_PING -> Ping::class.java
             TYPE_DISCONNECT_REQUEST -> DisconnectRequest::class.java
             TYPE_MOVE -> GameMove::class.java
+            TYPE_PLAYER_FE -> PlayerFE::class.java
             else -> BaseModel::class.java
         }
 
@@ -52,6 +54,7 @@ class CustomMessageAdapter<T> private constructor(
             TYPE_PING -> convertedData as Ping
             TYPE_DISCONNECT_REQUEST -> convertedData as DisconnectRequest
             TYPE_MOVE -> convertedData as GameMove
+            TYPE_PLAYER_FE -> convertedData as PlayerFE
             else -> convertedData
         }
 
