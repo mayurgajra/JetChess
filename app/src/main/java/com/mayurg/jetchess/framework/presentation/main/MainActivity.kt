@@ -72,6 +72,7 @@ class MainActivity : BaseActivity() {
                     val intent = Intent(this, PlayGameActivity::class.java)
                     intent.putExtra("roomId", it)
                     intent.putExtra("shouldRotate", false)
+                    intent.putExtra("isMakingAMove", true)
                     startActivity(intent)
                 }
             }
@@ -85,6 +86,7 @@ class MainActivity : BaseActivity() {
                             val intent = Intent(this, PlayGameActivity::class.java)
                             intent.putExtra("roomId", it)
                             intent.putExtra("shouldRotate", true)
+                            intent.putExtra("isMakingAMove", false)
                             startActivity(intent)
                         }
                     }

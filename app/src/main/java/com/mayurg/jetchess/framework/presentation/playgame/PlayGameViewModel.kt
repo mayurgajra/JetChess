@@ -20,14 +20,12 @@ import com.mayurg.jetchess.framework.presentation.playgame.state.PlayGameViewSta
 import com.mayurg.jetchess.util.DispatcherProvider
 import com.tinder.scarlet.WebSocket
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -73,6 +71,8 @@ class PlayGameViewModel @Inject constructor(
 
     var loggedInPlayer = MutableLiveData(PlayerFE())
     var oppositePlayer = MutableLiveData(PlayerFE())
+
+    var isMakingAMove = MutableLiveData(false)
 
     init {
         observeEvents()
@@ -130,6 +130,9 @@ class PlayGameViewModel @Inject constructor(
                         sendBaseModel(
                             GameMove(it.id, event.roomId, event.move)
                         )
+                        withContext(Dispatchers.Main){
+                            isMakingAMove.value = false
+                        }
                     }
 
                 }
@@ -155,6 +158,9 @@ class PlayGameViewModel @Inject constructor(
                 when (data) {
                     is GameMove -> {
                         socketEventChannel.send(SocketEvent.PieceMoved(data.move))
+                        withContext(Dispatchers.Main){
+                            isMakingAMove.value = true
+                        }
                     }
 
                     is PlayerFE -> {

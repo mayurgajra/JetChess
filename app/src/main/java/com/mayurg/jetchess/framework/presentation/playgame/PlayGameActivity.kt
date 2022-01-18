@@ -39,6 +39,7 @@ class PlayGameActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         val roomId = intent.extras?.getString("roomId") ?: ""
         val shouldRotate = intent.extras?.getBoolean("shouldRotate", false) ?: false
+        viewModel.isMakingAMove.value = intent.extras?.getBoolean("isMakingAMove", false) ?: false
 
         if (!TextUtils.isEmpty(roomId)) {
             viewModel.setStateEvent(PlayGameStateEvent.JoinRoomEvent(roomId))
@@ -101,29 +102,35 @@ class PlayGameActivity : BaseActivity() {
     fun PlayGameView(roomId: String, shouldRotate: Boolean) {
         val moveResult = viewModel.moveResult.observeAsState()
         var selection: PiecePosition? by remember { mutableStateOf(null) }
-        val viewState = viewModel.viewState.observeAsState()
         val currentRotation = if (shouldRotate) 180f else 0f
 
         val loggedInPlayer = viewModel.loggedInPlayer.observeAsState()
         val oppositePlayer = viewModel.oppositePlayer.observeAsState()
+        val isMakingAMove = viewModel.isMakingAMove.observeAsState()
 
         when (val result = moveResult.value) {
             is MoveResult.Success -> {
                 val game = result.game
 
                 val onSelect: (PiecePosition) -> Unit = {
-                    val sel = selection
-                    if (game.canSelect(it)) {
-                        selection = it
-                    } else if (sel != null && game.canMove(sel, it)) {
-                        viewModel.moveResult.value = game.doMove(sel, it)
-                        viewModel.sendWsEvent(PieceMovedEvent(roomId, Move(sel, it)))
-                        selection = null
+                    if (isMakingAMove.value == true) {
+                        val sel = selection
+                        if (game.canSelect(it)) {
+                            selection = it
+                        } else if (sel != null && game.canMove(sel, it)) {
+                            viewModel.moveResult.value = game.doMove(sel, it)
+                            viewModel.sendWsEvent(PieceMovedEvent(roomId, Move(sel, it)))
+                            selection = null
+                        }
                     }
                 }
 
                 Column {
-                    Text(text = oppositePlayer.value?.playerName.orEmpty(), color = Color.White, modifier = Modifier.padding(16.dp))
+                    Text(
+                        text = oppositePlayer.value?.playerName.orEmpty(),
+                        color = if (isMakingAMove.value == false) Color.Cyan else Color.White,
+                        modifier = Modifier.padding(16.dp)
+                    )
                     BoardMainContainer(
                         modifier = Modifier.rotate(currentRotation),
                         game = game,
@@ -132,7 +139,11 @@ class PlayGameActivity : BaseActivity() {
                         didTap = onSelect,
                         currentRotation = currentRotation
                     )
-                    Text(text = "${loggedInPlayer.value?.playerName.orEmpty()} (You)", color = Color.White, modifier = Modifier.padding(16.dp))
+                    Text(
+                        text = "${loggedInPlayer.value?.playerName.orEmpty()} (You)",
+                        color = if (isMakingAMove.value == true) Color.Cyan else Color.White,
+                        modifier = Modifier.padding(16.dp)
+                    )
                 }
             }
         }
