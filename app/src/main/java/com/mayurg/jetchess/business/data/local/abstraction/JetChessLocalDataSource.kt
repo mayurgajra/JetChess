@@ -11,4 +11,6 @@ interface JetChessLocalDataSource {
     suspend fun saveUserInfo(user: User)
 
     suspend fun getUserInfo() : User?
+
+    suspend fun clearUserInfo()
 }

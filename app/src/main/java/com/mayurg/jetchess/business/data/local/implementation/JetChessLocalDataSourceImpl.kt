@@ -33,5 +33,9 @@ class JetChessLocalDataSourceImpl constructor(
         return user
     }
 
+    override suspend fun clearUserInfo() {
+        prefs.edit().clear().apply()
+    }
+
 
 }

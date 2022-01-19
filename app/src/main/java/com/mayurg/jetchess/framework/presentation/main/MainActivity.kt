@@ -22,6 +22,7 @@ import androidx.navigation.compose.rememberNavController
 import com.mayurg.jetchess.framework.presentation.base.BaseActivity
 import com.mayurg.jetchess.framework.presentation.challenges.Challenges
 import com.mayurg.jetchess.framework.presentation.challenges.ChallengesListViewModel
+import com.mayurg.jetchess.framework.presentation.login.LoginActivity
 import com.mayurg.jetchess.framework.presentation.playgame.PlayGameActivity
 import com.mayurg.jetchess.framework.presentation.users.Users
 import com.mayurg.jetchess.framework.presentation.users.UsersListViewModel
@@ -57,7 +58,7 @@ class MainActivity : BaseActivity() {
         val currentScreen by viewModel.currentScreen.observeAsState()
 
         val bottomBar: @Composable () -> Unit = {
-            if (currentScreen == Screens.MainScreens.Home || currentScreen is Screens.MainScreens) {
+            if (currentScreen == Screens.MainScreens.Users || currentScreen is Screens.MainScreens) {
                 BottomBar(
                     navController = navController,
                     screens = screensInHomeFromBottomNav
@@ -121,13 +122,8 @@ class MainActivity : BaseActivity() {
     ) {
         NavHost(
             navController = navController as NavHostController,
-            startDestination = Screens.MainScreens.Home.route
+            startDestination = Screens.MainScreens.Users.route
         ) {
-            composable(Screens.MainScreens.Home.route) {
-                Home(viewModel = viewModel, onClick = {
-                    moveToGame()
-                })
-            }
             composable(Screens.MainScreens.Users.route) {
                 Users(
                     mainViewModel = viewModel,
@@ -140,13 +136,21 @@ class MainActivity : BaseActivity() {
                     challengesListViewModel = challengesListViewModel
                 )
             }
-            composable(Screens.MainScreens.Profile.route) { Profile(viewModel = viewModel) }
+            composable(Screens.MainScreens.Profile.route) {
+                Profile(viewModel = viewModel, onLogoutClicked = {
+                    moveToLogin(viewModel)
+                })
+            }
         }
     }
 
-    private fun moveToGame() {
-        val intent = Intent(this, PlayGameActivity::class.java)
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private fun moveToLogin(viewModel: MainViewModel) {
+        viewModel.clearUserInfo()
+        val intent = Intent(this, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
         startActivity(intent)
+        finishAffinity()
     }
 
     @Composable
